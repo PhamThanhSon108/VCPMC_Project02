@@ -1,0 +1,122 @@
+.wrap__add-device {
+  .add-device__form {
+    background: #ffffff;
+
+    width: 100%;
+    box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+    border-radius: 16px;
+    margin-right: 64px;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    &-title {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 30px;
+      /* identical to box height, or 150% */
+
+      /* Orange/$-Orange-500 */
+
+      color: #ff7506;
+    }
+    .add-device__form-box {
+    }
+    .main-form {
+      .ant-form-item-label {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+      }
+      .ant-input {
+        background: #ffffff;
+
+        width: 680px;
+        height: 44px;
+        //border: 1px solid #d4d4d7;
+        border-radius: 8px;
+      }
+      .ant-select {
+        &-selector {
+          border-radius: 8px;
+
+          height: 44px;
+          border: 2px solid #d4d4d7 !important;
+          .ant-select-selection-search {
+            input {
+              height: 100%;
+            }
+          }
+          .ant-select-selection-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+          }
+        }
+      }
+    }
+  }
+}
+
+//Detail device
+.detail__page {
+  background: #ffffff;
+  /* Shadowbox */
+  padding: 40px;
+  box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+  border-radius: 16px;
+  height: 550px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: start;
+
+  &-title {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 30px;
+    /* identical to box height, or 150% */
+
+    /* Orange/$-Orange-500 */
+    margin-bottom: 20px;
+    color: #ff7506;
+  }
+  &-wrap {
+    width: 100%;
+    .detail__page-list {
+      width: 50%;
+      text-align: start;
+      div {
+        margin-bottom: 22px;
+        display: flex;
+
+        span {
+          &:first-child {
+            font-weight: 600;
+            color: #282739;
+            min-width: 150px;
+            display: block;
+          }
+          font-weight: 400;
+          font-size: 19px;
+          line-height: 30px;
+        }
+      }
+    }
+  }
+}
+.detail__page-list-length {
+  text-align: start;
+  div {
+    font-weight: 600;
+    color: #282739;
+    min-width: 150px;
+    font-size: 19px;
+    line-height: 30px;
+  }
+  span {
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 30px;
+  }
+}

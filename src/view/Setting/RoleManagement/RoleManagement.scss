@@ -1,0 +1,26 @@
+.role-function-decentralization-title {
+  text-align: start;
+}
+
+.role-function-decentralization-wrap {
+  width: 560px;
+  height: 420px;
+  background: #fff2e7;
+  border-radius: 8px;
+  padding: 18px;
+  overflow-y: auto;
+
+  .role-function-decentralization-item {
+    margin-bottom: 5px;
+    &-title {
+      text-align: start;
+      color: #ff7506;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 30px;
+    }
+    .ant-form-item {
+      margin-bottom: 0px;
+    }
+  }
+}
