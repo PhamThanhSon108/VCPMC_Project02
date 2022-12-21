@@ -1,4 +1,8 @@
-.devicepage {
+:root {
+  --border-radius: 16px;
+}
+
+.page {
   padding-left: 24px;
   width: 100%;
   &__title {
@@ -21,7 +25,7 @@
       flex-grow: 1;
       display: flex;
       justify-content: end;
-      .devicepage__filter-item {
+      .page__filter-item {
         width: 300px;
         .ant-btn.ant-btn-default {
           border-radius: 0px 8px 8px 0 !important;
@@ -57,7 +61,7 @@
         border-right-width: 1px;
         outline: 0;
       }
-      .devicepage__filter-item-body.ant-select .ant-select-selector {
+      .page__filter-item-body.ant-select .ant-select-selector {
         width: 300px;
         height: 44px !important;
         border: 1.5px solid #d4d4d7 !important;
@@ -108,43 +112,9 @@
           }
         }
       }
-      .ant-input-group-wrapper.ant-input-search.devicepage__filter-item-body {
+      .ant-input-group-wrapper.ant-input-search.page__filter-item-body {
         span {
           height: 44px !important;
-        }
-      }
-    }
-  }
-  &__body {
-    &-table {
-    }
-    &-modify {
-      display: flex;
-      justify-content: flex-end;
-      &-container {
-        background-color: #ff7506;
-        width: 80px;
-        height: 94px;
-        background: #fff2e7;
-        /* down */
-
-        box-shadow: 0px 0px 6px #e7e9f2;
-        border-radius: 8px 0px 0px 8px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        padding: 12px;
-        &-icon {
-        }
-        &-label {
-          font-weight: 600;
-          font-size: 14px;
-          line-height: 19px;
-          text-align: center;
-
-          /* Orange/$-Orange-500 */
-
-          color: #ff7506;
         }
       }
     }
@@ -157,66 +127,82 @@
   border-collapse: separate;
   border-spacing: 0;
 }
-.table__device {
-  filter: drop-shadow(2px 2px 8px rgba(232, 239, 244, 0.8));
-
+.table-custom {
+  background-color: #282739;
+  border-radius: 16px;
+  position: relative;
   .ant-table.ant-table-middle {
-    border-radius: 12px;
+    // border-radius: 12px;
+    background-color: transparent;
+  }
+  .ant-pagination-item-ellipsis {
+    color: var(--white) !important;
+    text-align: center;
+    font-size: 0.7rem;
   }
   .ant-table-content {
     table {
       border-top: 0;
       margin-top: 0;
     }
-    //filter: drop-shadow(2px 2px 8px rgba(232, 239, 244, 0.8));
     .ant-table-thead {
       align-items: center;
       tr {
         border-radius: 12px !important;
         &:nth-child(even) {
-          background-color: #0acdcd;
         }
         th.ant-table-cell {
           align-items: center;
-          color: white;
-          background-color: #ff7506;
-
+          color: #ff7506;
+          background-color: transparent;
+          border: none;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 20px;
           &:first-child {
-            border-top-left-radius: 12px;
+            padding-left: 15px;
           }
-          &:last-child {
-            border-top-right-radius: 12px;
-          }
+        }
+        th {
+          padding: 20px 0px;
+          border-right: 0 !important;
         }
       }
     }
     .ant-table-tbody {
+      .ant-table-row:hover {
+        background-color: transparent;
+        opacity: 0.9;
+        td {
+          background-color: #282739;
+        }
+      }
       tr {
         td {
+          border-right: 0 !important;
           &:first-child {
             padding-left: 16px;
           }
-        }
-        &:nth-child(even) {
-          background-color: #fff2e7;
-        }
-        &:first-child {
-          border-bottom-left-radius: 12px;
-        }
-
-        &:last-child {
-          td {
-            &:first-child {
-              border-bottom-left-radius: 12px;
-            }
-            &:last-child {
-              border-bottom-right-radius: 12px;
-            }
+          &.ant-table-cell {
+            border-bottom: 1px solid #727288;
+            color: white;
           }
         }
       }
     }
   }
+
+  .ant-table.ant-table-bordered
+    > .ant-table-container
+    > .ant-table-content
+    > table {
+    border: none;
+  }
+  .ant-table.ant-table-bordered > .ant-table-container {
+    border-left: 0;
+    background-color: transparent;
+  }
+
   .ant-pagination.ant-pagination-mini.ant-table-pagination.ant-table-pagination-right {
     li {
       width: 32px;
@@ -224,26 +210,83 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--white);
+      opacity: 0.8;
     }
     height: 32px;
     margin-top: 24px;
     display: flex;
     align-items: center;
     li.ant-pagination-item-active {
-      background-color: #ff7506;
+      background: rgba(255, 117, 6, 0.5);
+      border-radius: 10000;
       font-weight: 700;
       font-size: 16px;
       line-height: 22px;
+      text-align: center;
+
       /* identical to box height */
 
       color: #ffffff;
     }
     .ant-pagination-item.ant-pagination-item-active {
-      border-radius: 4px;
+      border-radius: 50%;
       border: none;
       a {
         color: #ffffff !important;
       }
+    }
+    .ant-pagination-item-container {
+      display: flex;
+    }
+  }
+  .ant-table-empty {
+    .ant-table-placeholder:hover {
+      td.ant-table-cell {
+        background-color: transparent !important;
+      }
+    }
+    td.ant-table-cell {
+      border: none !important;
+      color: white;
+      .ant-empty {
+        .ant-empty-image {
+          svg {
+            path {
+              color: red;
+            }
+            color: #ff7506;
+          }
+        }
+        .ant-empty-description {
+          color: #ff7506;
+        }
+      }
+    }
+  }
+}
+
+.display-row-in__page-wrap {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  &-text {
+    color: var(--white);
+  }
+  &-input {
+    margin: 0 5px;
+    width: 50px;
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1.5px solid #ff7506 !important;
+    color: var(--white);
+    .ant-input-number-handler-wrap {
+      display: none;
+    }
+    .ant-input-number-input {
+      text-align: center;
     }
   }
 }

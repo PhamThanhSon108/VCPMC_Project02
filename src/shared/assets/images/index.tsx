@@ -2,6 +2,8 @@ import IconAddDevice from "./icons/IconAddDevice";
 import IconArrow from "./icons/IconArrow";
 import IconBell from "./icons/IconBell";
 import IconChangePassword from "./icons/IconChangePassword";
+import IconCheatsheet from "./icons/IconCheatsheet";
+import IconCompact from "./icons/IconCompact";
 import IconDashBoard from "./icons/IconDashBoard";
 import IconDevice from "./icons/IconDevice";
 import { IconDownLoadFile } from "./icons/IconDownLoadFile";
@@ -13,6 +15,7 @@ import IconNumericalorderSkiped from "./icons/IconNumericalorderSkiped";
 import IconNumericalorderUsed from "./icons/IconNumericalorderUsed";
 import IconNumericalorderWait from "./icons/IconNumericalorderWait";
 import IconNums from "./icons/IconNums";
+import IconPlay from "./icons/IconPlay";
 import IconPlaylist from "./icons/IconPlaylist";
 import IconReport from "./icons/IconReport";
 import IconSchedule from "./icons/IconSchedule";
@@ -34,6 +37,9 @@ export const images = {
     modifyInformation: <IconModifyInfor />,
     changePassword: <IconChangePassword />,
     logout: <IconLogout />,
+    cheatSheet: <IconCheatsheet />,
+    compact: <IconCompact />,
+    play: <IconPlay />,
 
     dashboard: <IconDashBoard />,
     setting: <IconSetting />,

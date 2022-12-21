@@ -2,12 +2,14 @@ import { Breadcrumb } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import { Link, useLocation } from "react-router-dom";
 const typePath = {
-  device: {
-    parentLabel: "Thiết bị",
-    path: "device",
-    label: "Danh sách thiết bị",
+  "record-store": {
+    path: "record-store",
+    label: "Kho bản ghi",
     child: {
-      add: { path: "add", label: "Thêm thiết bị" },
+      "manager-approval": {
+        path: "manager-approval",
+        label: "Quản lý phê duyệt",
+      },
       update: { path: "update", label: "Câp nhật thiết bị" },
       detail: { path: "detail", label: "Chi tiết thiết bị" },
       providenumbers: { path: "providenumbers", label: "Danh sách cấp số" },
@@ -120,7 +122,7 @@ export default function HeaderLayout() {
   itemRender(currentLocation, typePath);
 
   return (
-    <div>
+    <div style={{ width: "60vw", backgroundColor: "transparent" }}>
       {
         <Breadcrumb style={{ width: "60vw", backgroundColor: "transparent" }}>
           <BreadcrumbItem className="breadcrumb">

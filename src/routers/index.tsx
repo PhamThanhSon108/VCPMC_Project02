@@ -12,9 +12,14 @@ import Device from "../view/DevicePage/components/Device";
 import DetailProvideNumbersInDevice from "../view/DevicePage/components/ListProvideNumber/DetailProvideNumbersInDevice";
 import UpdateDevice from "../view/DevicePage/components/UpdateDevice";
 import Homepage from "../view/Homepage";
+import Playlist from "../view/Playlist";
+import DefaultPlaylist from "../view/Playlist/component/DefaultPlaylist";
 import ProvideNumberPage from "../view/ProvideNumbersPage";
 import ProvideNewNumber from "../view/ProvideNumbersPage/component/ProvideNewNumber";
 import ProvideNumbers from "../view/ProvideNumbersPage/component/ProvideNumbers";
+import RecordStore from "../view/RecordStore";
+import DefaultRecordStore from "../view/RecordStore/component/DefaultRecordStore";
+import ManagerApproval from "../view/RecordStore/component/ManagerApproval";
 import ReportPage from "../view/ReportPage";
 import Report from "../view/ReportPage/Components/Report";
 import ServicePage from "../view/ServicePage";
@@ -43,13 +48,11 @@ type routeType = {
   }[];
 };
 export const privateRoutes: routeType[] = [
-  { path: routes.home, component: <Homepage /> },
-
   {
-    path: routes.device,
-    component: <DevicePage />,
+    path: routes.playlist,
+    component: <Playlist />,
     children: [
-      { path: "", component: <Device /> },
+      { path: "", component: <DefaultPlaylist /> },
       { path: "add", component: <AddDevice /> },
       {
         path: "update/:id",
@@ -66,11 +69,14 @@ export const privateRoutes: routeType[] = [
     ],
   },
   {
-    path: routes.service,
-    component: <ServicePage />,
+    path: routes.recordStore,
+    component: <RecordStore />,
     children: [
-      { path: "", component: <Service />, permisioncode: "readServices" },
-      { path: "add", component: <AddService />, permisioncode: "addService" },
+      { path: "", component: <DefaultRecordStore /> },
+      {
+        path: "manager-approval",
+        component: <ManagerApproval />,
+      },
       {
         path: "detail/:id",
         component: <DetailService />,

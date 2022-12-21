@@ -1,5 +1,6 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Col, Form, Modal, Row, Input, Button } from "antd";
+import { publicToast } from "../Toast";
 import "./ChangePasswordModal.scss";
 
 function ChangePasswordModal({
@@ -16,6 +17,11 @@ function ChangePasswordModal({
   };
 
   const handleOk = () => {
+    publicToast({
+      type: "error",
+      message: "Thành công",
+      description: "Cập nhật mật khẩu thành công",
+    });
     setIsModalOpen(false);
   };
 
@@ -57,7 +63,13 @@ function ChangePasswordModal({
           }}
         >
           <div className="profile-user__box">
-            <Form name="formChangePassword" layout="vertical" form={form}>
+            <Form
+              id="changePasswordForm"
+              name="changePasswordForm"
+              layout="vertical"
+              form={form}
+              onFinish={handleOk}
+            >
               <Row className="profile-form__box modal-wrap" justify="center">
                 <Col span={24}>
                   <div className="main-form">

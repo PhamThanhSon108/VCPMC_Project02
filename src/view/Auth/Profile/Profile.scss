@@ -17,10 +17,8 @@
 }
 .profile-user__box {
   background: var(--default-background-popup-color);
-  // padding: 4rem 5.6rem 4.8rem 5.6rem;
   padding: 40px 0px 54px 0px;
   border-radius: 1.2rem;
-  // box-shadow: 0px 2px 6px rgba(219, 219, 219, 0.5);
 
   .ant-row {
     .profile-form__box {
@@ -29,18 +27,6 @@
   }
 
   .profile-form__box {
-    // width: 100%;
-    // .sort-input {
-    //   background-color: var(--default-background-popup-color);
-    //   .ant-form-item-row
-    //     .ant-form-item-control
-    //     .ant-form-item-control-input
-    //     .ant-form-item-control-input-content
-    //     .ant-input {
-    //     background-color: var(--default-input-color);
-    //     width: 274px;
-    //   }
-    // }
     & input {
       background-color: var(--default-input-color) !important;
     }
@@ -59,6 +45,9 @@
         label.ant-form-item-required {
           color: #eaeaec;
         }
+        label {
+          color: #eaeaec;
+        }
       }
       .ant-form-item-control-input .ant-form-item-control-input-content {
         display: flex;
@@ -71,6 +60,11 @@
           background: #eaeaec;
           border-radius: 6px;
           border: none;
+          color: white;
+          &.ant-input-disabled {
+            background-color: #3e3e50 !important;
+            color: white;
+          }
         }
       }
     }

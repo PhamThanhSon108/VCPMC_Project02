@@ -11,5 +11,10 @@ const routes = {
   reset: "/reset",
   forgotPassWord: "/forgot-password",
   profile: "/profile",
+
+  recordStore: "/record-store",
+  playlist: "/playlist",
+  schedule: "/schedule",
+  manage: "/manage",
 };
 export default routes;

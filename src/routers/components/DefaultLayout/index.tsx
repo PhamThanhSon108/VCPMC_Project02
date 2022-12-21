@@ -2,6 +2,7 @@ import { Row } from "antd";
 import Layout, { Content, Header } from "antd/lib/layout/layout";
 import Sider from "antd/lib/layout/Sider";
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import HeaderLayout from "../../../layout/Header";
 import UserHeader from "../../../layout/Header/UserHeader";
 
@@ -17,7 +18,11 @@ export default function DefaultLayout({
   children,
   dashboard,
 }: DefaultLayoutProps) {
-  const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+  const [collapsed, setCollapsed] = useState(
+    location.pathname.includes("manager-approval")
+  );
+
   return (
     <>
       <Row className="wrap">
@@ -33,6 +38,9 @@ export default function DefaultLayout({
           //   minWidth: "none",
           //   flex: "none",
           // }}
+          onCollapse={() => {
+            setCollapsed(false);
+          }}
         >
           <Sidebar />
         </Sider>

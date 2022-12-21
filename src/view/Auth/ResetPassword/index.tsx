@@ -5,7 +5,7 @@ import FormResetPassword from "./FormResetPassword";
 import { useState } from "react";
 
 export default function ResetPassword() {
-  const [reset, setReset] = useState<boolean>(true);
+  const [reset, setReset] = useState<boolean>(false);
   return (
     <div className="wrap">
       <Col span={24} className="form__login">
@@ -19,7 +19,6 @@ export default function ResetPassword() {
             }}
           >
             {reset ? (
-              // <FormResetPassword />
               <>
                 <div className="reset__title warning">Không thể kết nối!!</div>
 

@@ -31,84 +31,84 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {user ? (
-          <>
-            {publicRoutes?.map((value) => {
-              let Layout = Fragment;
-              return (
-                <Route
-                  key={v4()}
-                  element={<Layout>{value?.component}</Layout>}
-                  path={value?.path}
-                >
-                  {value?.children
-                    ? value?.children.map((item) => (
-                        <Route
-                          key={v4()}
-                          path={item.path}
-                          element={item.component}
-                        />
-                      ))
-                    : null}
-                </Route>
-              );
-            })}
+        {/* {user ? ( */}
+        <>
+          {publicRoutes?.map((value) => {
+            let Layout = Fragment;
+            return (
+              <Route
+                key={v4()}
+                element={<Layout>{value?.component}</Layout>}
+                path={value?.path}
+              >
+                {value?.children
+                  ? value?.children.map((item) => (
+                      <Route
+                        key={v4()}
+                        path={item.path}
+                        element={item.component}
+                      />
+                    ))
+                  : null}
+              </Route>
+            );
+          })}
 
-            {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
-          </>
-        ) : (
-          <>
-            {privateRoutes?.map((value) => {
-              let Layout = DefaultLayout;
+          {/* <Route path="*" element={<Navigate to="/login" replace />} /> */}
+        </>
+        {/* ) : ( */}
+        <>
+          {privateRoutes?.map((value) => {
+            let Layout = DefaultLayout;
 
-              return (
-                <Route
-                  key={v4()}
-                  element={
-                    <PrivateRoute
-                      component={
-                        <Layout dashboard={value.path === "/"}>
-                          {value?.component}
-                        </Layout>
+            return (
+              <Route
+                key={v4()}
+                element={
+                  <PrivateRoute
+                    component={
+                      <Layout dashboard={value.path === "/"}>
+                        {value?.component}
+                      </Layout>
+                    }
+                  ></PrivateRoute>
+                }
+                path={value?.path}
+              >
+                {value?.children
+                  ? value?.children.map((item) => {
+                      if (!item.permisioncode) {
+                        return (
+                          <Route
+                            key={v4()}
+                            path={item.path}
+                            element={item.component}
+                          />
+                        );
                       }
-                    ></PrivateRoute>
-                  }
-                  path={value?.path}
-                >
-                  {value?.children
-                    ? value?.children.map((item) => {
-                        if (!item.permisioncode) {
-                          return (
-                            <Route
-                              key={v4()}
-                              path={item.path}
-                              element={item.component}
-                            />
-                          );
-                        }
 
-                        if (
-                          item.permisioncode &&
-                          listPermissionCode?.find(
-                            (i) => item.permisioncode === i
-                          )
-                        ) {
-                          return (
-                            <Route
-                              key={v4()}
-                              path={item.path}
-                              element={item.component}
-                            />
-                          );
-                        }
-                      })
-                    : null}
-                </Route>
-              );
-            })}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </>
-        )}
+                      if (
+                        item.permisioncode &&
+                        listPermissionCode?.find(
+                          (i) => item.permisioncode === i
+                        )
+                      ) {
+                        return (
+                          <Route
+                            key={v4()}
+                            path={item.path}
+                            element={item.component}
+                          />
+                        );
+                      }
+                    })
+                  : null}
+              </Route>
+            );
+          })}
+          <Route path="*" element={<Navigate to="/record-store" replace />} />
+        </>
+        {/* )} */}
       </Routes>
     </div>
   );

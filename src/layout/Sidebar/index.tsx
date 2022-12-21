@@ -9,6 +9,7 @@ import { auth } from "../../firebase/config";
 import { useAppDispatch } from "../../shared/hooks";
 import { setToken } from "../../modules/authentication/profileStore";
 import "./Sidebar.scss";
+import routes from "../../config/routes";
 type MenuItem = Required<MenuProps>["items"][number];
 function getItem(
   label: React.ReactNode,
@@ -25,10 +26,10 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem("Kho bản ghi", "/", images.icon.recordStore),
-  getItem("Playlist", "/device", images.icon.playlist),
-  getItem("Lập lịch phát", "/service", images.icon.schedule),
-  getItem(`Quản lý`, "/setting0", images.icon.manage, [
+  getItem("Kho bản ghi", routes.recordStore, images.icon.recordStore),
+  getItem("Playlist", routes.playlist, images.icon.playlist),
+  getItem("Lập lịch phát", routes.schedule, images.icon.schedule),
+  getItem(`Quản lý`, routes.manage, images.icon.manage, [
     getItem("Quản lý hợp đồng", "/setting/role"),
     getItem("Quản lý thiết bị", "/setting/account"),
     getItem("Đơn vị ủy quyền", "/setting/userlog"),
@@ -57,6 +58,7 @@ export default function Sidebar() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const handleOnselect = (item: SelectInfo) => {
+    console.log(item.key);
     navigate(`${item.key}`);
   };
   return (

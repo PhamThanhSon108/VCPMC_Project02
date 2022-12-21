@@ -27,7 +27,9 @@ export default React.memo(function FormLogin() {
   const handleFinish = (data: FormData) => {
     setLoginStatus("pending");
     delete data.remember;
-
+    setTimeout(() => {
+      navigate("/record-store");
+    }, 300);
     signInWithEmailAndPassword(auth, data.names.username, data.names.password)
       .then((userCredential) => {
         userCredential.user
@@ -37,7 +39,7 @@ export default React.memo(function FormLogin() {
             document.cookie = `accessToken=${token}; SameSite=None; Secure`;
             dispatch(setToken({ token, remember: true }));
             setTimeout(() => {
-              navigate("/");
+              navigate("/record-store");
             }, 300);
           })
           .catch((error) => {

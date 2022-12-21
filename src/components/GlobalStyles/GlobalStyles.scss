@@ -1,7 +1,7 @@
 @import "normalize.css";
 
 :root {
-  --default-btn-height: 44px;
+  --default-btn-height: 40px;
   --default-input-width: 400px;
   --gray: #7e7d88;
   --orange: #ff7506;
@@ -15,7 +15,8 @@
 }
 body {
   box-sizing: border-box !important;
-  // overflow-x: hidden; /* Hide horizontal scrollbar */
+
+  overflow-x: hidden; // overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 .select__default {

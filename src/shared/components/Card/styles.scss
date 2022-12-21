@@ -1,0 +1,99 @@
+//card custom
+.custom-card {
+  display: flex;
+  justify-content: space-between;
+}
+.custom-card-item__wrap {
+  background: rgba(57, 57, 85, 0.7);
+  min-height: 150px;
+  height: 250px;
+  margin: 0px 0px 20px 0px;
+  border-radius: 8px;
+  .custom-card-item__image {
+    height: 125px;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    width: 100%;
+    position: relative;
+    img {
+      width: 100%;
+    }
+    .custom-card-item__video-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      &:hover {
+        color: #ff7506;
+        cursor: pointer;
+        svg {
+        }
+      }
+    }
+  }
+
+  .custom-card-item__body {
+    height: 125px;
+    padding: 5px 10px;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      font-weight: 500;
+      color: var(--white);
+      font-size: 14px;
+    }
+    &-content {
+      height: calc(125px - 35px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 10px;
+      div span {
+        color: #f5f5ff;
+      }
+      div span.main {
+        color: white;
+        padding-right: 10px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .wrap-box {
+        display: flex;
+        .box-item {
+          border: 1px solid #727288;
+          border-radius: 6px;
+          padding: 2px 5px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          &-title {
+            color: #727288;
+            font-size: 5px;
+            line-height: 7px;
+          }
+          &-content {
+            font-size: 6px;
+            font-weight: 500;
+            line-height: 7px;
+          }
+        }
+        .box-item + .box-item {
+          margin-left: 7px;
+        }
+        flex-direction: row;
+        .box-last-item {
+          flex-grow: 1;
+          text-align: end;
+          cursor: pointer;
+          svg {
+            height: 20px;
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+.custom-tab__wrap {
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  span + span {
+    margin-left: 5px;
+  }
+  span {
+    cursor: pointer;
+    &:not(.active) :hover {
+      color: #dfd3c9;
+    }
+    svg {
+      width: 25px;
+    }
+  }
+  .active {
+    color: #ff7506;
+  }
+}
