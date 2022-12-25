@@ -1,7 +1,7 @@
 import { Row } from "antd";
 import Layout, { Content, Header } from "antd/lib/layout/layout";
 import Sider from "antd/lib/layout/Sider";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import HeaderLayout from "../../../layout/Header";
 import UserHeader from "../../../layout/Header/UserHeader";
@@ -22,6 +22,16 @@ export default function DefaultLayout({
   const [collapsed, setCollapsed] = useState(
     location.pathname.includes("manager-approval")
   );
+  useEffect(() => {
+    if (
+      location.pathname.includes("record-store/update/") ||
+      (location.pathname.includes("/playlist/add") && !collapsed)
+    ) {
+      setCollapsed(true);
+    } else {
+      setCollapsed(false);
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -63,7 +73,7 @@ export default function DefaultLayout({
                 style={{
                   backgroundColor: "white",
                   height: "80px",
-                  marginBottom: "29px",
+                  // marginBottom: "29px",
                 }}
               >
                 <UserHeader />

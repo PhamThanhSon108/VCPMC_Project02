@@ -1,5 +1,5 @@
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import { Badge, Input, InputNumber, Table } from "antd";
+import { Badge, Checkbox, Input, InputNumber, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { ReactNode, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import PlayVideoModal from "../../../../shared/components/Modal/PlayVideoModal";
 import { useAppSelector } from "../../../../shared/hooks";
 
 export interface DataType {
+  key: React.Key;
   id: string;
   orderNumber: number;
   recordName: string;
@@ -16,8 +17,10 @@ export interface DataType {
   author: string;
   type: string;
   format: string;
-  deviceService: string;
+
   useDuration: string;
+  contractNumber: string;
+  uploadDate: string;
 }
 
 export const PropsDefaultRecordStore = {
@@ -77,63 +80,80 @@ const columns: ColumnsType<DataType> = [
     title: "Tên bản ghi",
     dataIndex: "recordName",
     key: "recordName",
+    render: (_, { recordName, type, format, duration }) => {
+      return (
+        <div>
+          <div>{recordName}</div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "10px",
+              opacity: "0.7",
+            }}
+          >
+            <span>{type}</span>
+            <span
+              style={{
+                color: "#347AFF",
+                lineHeight: "10px",
+                padding: "0px 2px",
+              }}
+            >
+              *
+            </span>
+
+            <span>{format}</span>
+            <span
+              style={{
+                color: "#347AFF",
+                lineHeight: "10px",
+                padding: "0px 2px",
+              }}
+            >
+              *
+            </span>
+
+            <span>{duration}</span>
+          </div>
+        </div>
+      );
+    },
   },
-  {
-    title: "Địa chỉ IP",
-    dataIndex: "isrcCode",
-    key: "isrcCode",
-  },
-  {
-    title: "Thời lượng",
-    dataIndex: "duration",
-    key: "duration",
-  },
+
   {
     title: "Ca sĩ",
     dataIndex: "singer",
     key: "singer",
   },
+
   {
     title: "Tác giả",
     dataIndex: "author",
     key: "author",
   },
   {
-    title: "Thể loại",
-    dataIndex: "type",
-    key: "type",
+    title: "Mã ISRC",
+    dataIndex: "isrcCode",
+    key: "isrcCode",
+  },
+  {
+    title: "Số hợp đồng",
+    dataIndex: "contractNumber",
+    key: "contractNumber",
   },
 
   {
-    title: "Định dạng",
-    dataIndex: "format",
-    key: "format",
-  },
-  {
-    title: "Định dạng",
-    dataIndex: "useDuration",
-    key: "useDuration",
+    title: "Ngày tải",
+    dataIndex: "uploadDate",
+    key: "uploadDate",
   },
 
-  {
-    render: (_, { id }) => (
-      <Link
-        to={"update/1213"}
-        style={{
-          textAlign: "center",
-          color: " #FF7506",
-          textDecoration: "underline",
-        }}
-      >
-        Cập nhật
-      </Link>
-    ),
-  },
   {
     render: (_, { id }) => {
       return (
         <Link
-          to={"/record-store/play/" + id}
+          to={"/record-store/manager-approval/" + id}
           style={{
             textAlign: "center",
             color: " #FF7506",
@@ -160,7 +180,7 @@ const itemRender = (_: any, type: string, originalElement: ReactNode) => {
   }
   return originalElement;
 };
-export default React.memo(function TableDefaulRecordStore({
+export default React.memo(function TableDefaultManagerApproval({
   statusActive,
   statusConect,
   keyWord,
@@ -174,6 +194,17 @@ export default React.memo(function TableDefaulRecordStore({
   const [numbRowInPage, setNumbRowInPage] = useState<number>(13);
   const [isPlayVideo, setIsPlayVideo] = useState<boolean>(false);
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
   return (
     <>
       <PlayVideoModal
@@ -187,19 +218,71 @@ export default React.memo(function TableDefaulRecordStore({
         columns={columns}
         dataSource={[
           {
-            id: "Text",
+            key: "0122",
+            id: "String",
             orderNumber: 1,
-            recordName: "Text",
-            isrcCode: "Text",
-            duration: "Text",
-            singer: "Text",
-            author: "Text",
-            type: "Text",
-            format: "Text",
-            deviceService: "Text",
-            useDuration: "Text",
+            recordName: "Nước ngoài",
+            isrcCode: "KRA40105463",
+            duration: "3:40",
+            singer: "Phan Mạnh Quỳnh",
+            author: "Phan Mạnh Quỳnh",
+            type: "String",
+            format: "String",
+
+            useDuration: "String",
+            contractNumber: "AAKRA40105",
+            uploadDate: "22/12/2022 12:12:00",
+          },
+          {
+            key: "01223",
+            id: "String",
+            orderNumber: 1,
+            recordName: "String",
+            isrcCode: "String",
+            duration: "String",
+            singer: "String",
+            author: "String",
+            type: "String",
+            format: "String",
+
+            useDuration: "String",
+            contractNumber: "String",
+            uploadDate: "String",
+          },
+          {
+            key: "01224",
+            id: "String",
+            orderNumber: 1,
+            recordName: "String",
+            isrcCode: "String",
+            duration: "String",
+            singer: "String",
+            author: "String",
+            type: "String",
+            format: "String",
+
+            useDuration: "String",
+            contractNumber: "String",
+            uploadDate: "String",
+          },
+          {
+            key: "0122",
+            id: "String",
+            orderNumber: 1,
+            recordName: "String",
+            isrcCode: "String",
+            duration: "String",
+            singer: "String",
+            author: "String",
+            type: "String",
+            format: "String",
+
+            useDuration: "String",
+            contractNumber: "String",
+            uploadDate: "String",
           },
         ]}
+        rowSelection={rowSelection}
         size={"middle"}
         pagination={{
           pageSize: numbRowInPage,

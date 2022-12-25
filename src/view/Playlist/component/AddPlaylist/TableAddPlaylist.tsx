@@ -3,10 +3,10 @@ import { Badge, Input, InputNumber, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { ReactNode, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import PlayVideoModal from "../../../../shared/components/Modal/PlayVideoModal";
 import { useAppSelector } from "../../../../shared/hooks";
 
 export interface DataType {
+  key: React.Key;
   id: string;
   orderNumber: number;
   recordName: string;
@@ -16,56 +16,11 @@ export interface DataType {
   author: string;
   type: string;
   format: string;
-  deviceService: string;
-  useDuration: string;
-}
 
-export const PropsDefaultRecordStore = {
-  id: {
-    label: "",
-    key: "id",
-  },
-  orderNumber: {
-    label: "Số thứ tự",
-  },
-  recordName: {
-    label: "Tên bản ghi",
-    key: "recordName",
-  },
-  isrcCode: {
-    label: "MÃ ISRC",
-    key: "isrcCode",
-  },
-  duration: {
-    label: "",
-    key: "duration",
-  },
-  singer: {
-    label: "Ca sĩ",
-    key: "singer",
-  },
-  author: {
-    label: "Tác giả",
-    key: "author",
-  },
-  type: {
-    label: "Thể loại",
-    key: "type",
-  },
-  format: {
-    label: "",
-  },
-  deviceService: {
-    label: "",
-  },
-  useDuration: {
-    label: "",
-  },
-  producer: {
-    label: "Nhà xuất bản",
-    key: "producer",
-  },
-};
+  useDuration: string;
+  contractNumber: string;
+  uploadDate: string;
+}
 
 const columns: ColumnsType<DataType> = [
   {
@@ -77,73 +32,86 @@ const columns: ColumnsType<DataType> = [
     title: "Tên bản ghi",
     dataIndex: "recordName",
     key: "recordName",
-  },
-  {
-    title: "Địa chỉ IP",
-    dataIndex: "isrcCode",
-    key: "isrcCode",
-  },
-  {
-    title: "Thời lượng",
-    dataIndex: "duration",
-    key: "duration",
+    render: (_, { recordName, type, format, duration }) => {
+      return (
+        <div>
+          <div>{recordName}</div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "10px",
+              opacity: "0.7",
+            }}
+          >
+            <span>{type}</span>
+            <span
+              style={{
+                color: "#347AFF",
+                lineHeight: "10px",
+                padding: "0px 2px",
+              }}
+            >
+              *
+            </span>
+
+            <span>{format}</span>
+            <span
+              style={{
+                color: "#347AFF",
+                lineHeight: "10px",
+                padding: "0px 2px",
+              }}
+            >
+              *
+            </span>
+
+            <span>{duration}</span>
+          </div>
+        </div>
+      );
+    },
   },
   {
     title: "Ca sĩ",
     dataIndex: "singer",
     key: "singer",
   },
+
   {
     title: "Tác giả",
     dataIndex: "author",
     key: "author",
   },
-  {
-    title: "Thể loại",
-    dataIndex: "type",
-    key: "type",
-  },
-
-  {
-    title: "Định dạng",
-    dataIndex: "format",
-    key: "format",
-  },
-  {
-    title: "Định dạng",
-    dataIndex: "useDuration",
-    key: "useDuration",
-  },
 
   {
     render: (_, { id }) => (
       <Link
-        to={"update/1213"}
+        to={id}
         style={{
           textAlign: "center",
           color: " #FF7506",
           textDecoration: "underline",
         }}
       >
-        Cập nhật
+        Nghe
       </Link>
     ),
   },
+
   {
-    render: (_, { id }) => {
-      return (
-        <Link
-          to={"/record-store/play/" + id}
-          style={{
-            textAlign: "center",
-            color: " #FF7506",
-            textDecoration: "underline",
-          }}
-        >
-          Nghe
-        </Link>
-      );
-    },
+    render: (_, { id }) => (
+      <Link
+        to={id}
+        style={{
+          textAlign: "center",
+          color: " #FF7506",
+          textDecoration: "underline",
+        }}
+      >
+        Gỡ
+      </Link>
+    ),
   },
 ];
 
@@ -160,7 +128,7 @@ const itemRender = (_: any, type: string, originalElement: ReactNode) => {
   }
   return originalElement;
 };
-export default React.memo(function TableDefaulRecordStore({
+export default React.memo(function TableAddPlaylist({
   statusActive,
   statusConect,
   keyWord,
@@ -172,32 +140,30 @@ export default React.memo(function TableDefaulRecordStore({
   const devices = useAppSelector((state) => state.device);
   let data: DataType[] | any = devices.devices;
   const [numbRowInPage, setNumbRowInPage] = useState<number>(13);
-  const [isPlayVideo, setIsPlayVideo] = useState<boolean>(false);
-
   return (
-    <>
-      <PlayVideoModal
-        path="/record-store/manager-approval"
-        isModalOpen={isPlayVideo}
-        setIsModalOpen={setIsPlayVideo}
-      />
+    <div style={{ position: "relative" }}>
       <Table
-        loading={devices.loading}
         className="table-custom"
         columns={columns}
+        onChange={function (selectedRowKeys, selectedRows, info) {
+          console.log(selectedRowKeys, selectedRows, info);
+        }}
         dataSource={[
           {
-            id: "Text",
+            key: "0122",
+            id: "String",
             orderNumber: 1,
-            recordName: "Text",
-            isrcCode: "Text",
-            duration: "Text",
-            singer: "Text",
-            author: "Text",
-            type: "Text",
-            format: "Text",
-            deviceService: "Text",
-            useDuration: "Text",
+            recordName: "Nước ngoài",
+            isrcCode: "KRA40105463",
+            duration: "3:40",
+            singer: "Phan Mạnh Quỳnh",
+            author: "Phan Mạnh Quỳnh",
+            type: "String",
+            format: "String",
+
+            useDuration: "String",
+            contractNumber: "AAKRA40105",
+            uploadDate: "22/12/2022 12:12:00",
           },
         ]}
         size={"middle"}
@@ -214,14 +180,12 @@ export default React.memo(function TableDefaulRecordStore({
           value={numbRowInPage}
           type="number"
           onChange={(value) => {
-            if (value && value > 0 && value < 100) {
+            if (value && value > 0) {
               setTimeout(() => {
                 console.log("loop");
 
                 setNumbRowInPage(value);
               }, 3000);
-            } else {
-              setNumbRowInPage(13);
             }
           }}
         />
@@ -229,6 +193,6 @@ export default React.memo(function TableDefaulRecordStore({
           hàng trong mỗi trang
         </span>
       </div>
-    </>
+    </div>
   );
 });

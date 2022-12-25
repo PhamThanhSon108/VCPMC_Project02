@@ -1,7 +1,7 @@
 import Search from "antd/lib/input/Search";
 import { Col, Row, Select, Typography } from "antd";
 import { Option } from "antd/lib/mentions";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { images } from "../../../../shared/assets/images";
 
@@ -10,19 +10,30 @@ import SelectFilter from "../../../../shared/components/Select";
 import SearchCustom from "../../../../shared/components/Select/SearchCustom";
 import TableDefaulRecordStore from "./TableDefaulRecordStore";
 import TabsCustom from "../../../../shared/components/Tab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ItemCustom from "../../../../shared/components/Card/ItemCustom";
 import PlayVideoModal from "../../../../shared/components/Modal/PlayVideoModal";
-
+export const avtUrl =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDrvKyt1Je7fm-ENkI9exhhqnzD4MfBrhAHw&usqp=CAU";
 export default function DefaultRecordStore() {
+  const location = useLocation();
   const [showList, setShowList] = useState<"cheatSheet" | "compact">(
     "cheatSheet"
   );
+  const [isPlayVideo, setIsPlayVideo] = useState<boolean>(false);
+  useEffect(() => {
+    if (location.pathname.includes("play")) {
+      setIsPlayVideo(true);
+    }
+  }, [location.pathname]);
 
-  const avtUrl =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDrvKyt1Je7fm-ENkI9exhhqnzD4MfBrhAHw&usqp=CAU";
   return (
     <>
+      <PlayVideoModal
+        path="/record-store"
+        isModalOpen={isPlayVideo}
+        setIsModalOpen={setIsPlayVideo}
+      />
       <div className="page">
         <Row className="page__title">
           <Typography.Title>Biểu đồ cấp số</Typography.Title>
@@ -99,8 +110,11 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
-
+                  >
+                    <Link to={"update/123"}>
+                      {images.icon.modifyInformation}
+                    </Link>
+                  </ItemCustom>{" "}
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -116,7 +130,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>{" "}
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -132,7 +148,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>{" "}
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -148,7 +166,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>{" "}
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -164,7 +184,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>{" "}
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -180,7 +202,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>{" "}
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -196,7 +220,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>
                   <ItemCustom
                     img={avtUrl}
                     props={{
@@ -212,23 +238,9 @@ export default function DefaultRecordStore() {
                         { desBox: "Pop", mainBox: "Thể loại" },
                       ],
                     }}
-                  />
-                  <ItemCustom
-                    img={avtUrl}
-                    props={{
-                      title: "One piece",
-                      contents01: [
-                        { des: "Phạm Thanh Sơn", mainName: "Ca sĩ:" },
-                        { des: "Phạm Thanh Sơn", mainName: "Sáng tác:" },
-                        { des: "Phạm Thanh Sơn", mainName: "Số hợp đồng:" },
-                      ],
-                      contents02: [
-                        { desBox: "Pop", mainBox: "Thể loại" },
-                        { desBox: "Pop", mainBox: "Thể loại" },
-                        { desBox: "Pop", mainBox: "Thể loại" },
-                      ],
-                    }}
-                  />
+                  >
+                    {images.icon.modifyInformation}
+                  </ItemCustom>
                 </Row>
               </>
             )}
@@ -239,7 +251,7 @@ export default function DefaultRecordStore() {
                 {images.icon.modifyInformation}
               </div>
               <Link
-                to={"manager-approval"}
+                to={"/record-store/manager-approval"}
                 className="page__body-modify-container-label"
                 // onClick={handleAddDevice}
               >

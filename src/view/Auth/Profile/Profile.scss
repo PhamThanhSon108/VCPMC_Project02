@@ -56,7 +56,7 @@
 
         .ant-input {
           width: 100%;
-          height: 44px;
+          height: 40px;
           background: #eaeaec;
           border-radius: 6px;
           border: none;
@@ -84,6 +84,9 @@
         background: #2f2f41;
         width: 80px;
         height: 94px;
+        &-label {
+          font-size: 12px !important;
+        }
         cursor: pointer;
         /* down */
 

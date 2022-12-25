@@ -78,7 +78,7 @@ export default function Sidebar() {
       <Menu
         className="menu"
         items={items}
-        selectedKeys={[location.pathname]}
+        selectedKeys={[`/${location.pathname.split("/")[1]}`]}
         onSelect={(item) => {
           handleOnselect(item);
         }}

@@ -13,6 +13,7 @@ import DetailProvideNumbersInDevice from "../view/DevicePage/components/ListProv
 import UpdateDevice from "../view/DevicePage/components/UpdateDevice";
 import Homepage from "../view/Homepage";
 import Playlist from "../view/Playlist";
+import AddPlaylist from "../view/Playlist/component/AddPlaylist";
 import DefaultPlaylist from "../view/Playlist/component/DefaultPlaylist";
 import ProvideNumberPage from "../view/ProvideNumbersPage";
 import ProvideNewNumber from "../view/ProvideNumbersPage/component/ProvideNewNumber";
@@ -20,6 +21,7 @@ import ProvideNumbers from "../view/ProvideNumbersPage/component/ProvideNumbers"
 import RecordStore from "../view/RecordStore";
 import DefaultRecordStore from "../view/RecordStore/component/DefaultRecordStore";
 import ManagerApproval from "../view/RecordStore/component/ManagerApproval";
+import UpdateRecord from "../view/RecordStore/component/UpdateRecord";
 import ReportPage from "../view/ReportPage";
 import Report from "../view/ReportPage/Components/Report";
 import ServicePage from "../view/ServicePage";
@@ -53,7 +55,7 @@ export const privateRoutes: routeType[] = [
     component: <Playlist />,
     children: [
       { path: "", component: <DefaultPlaylist /> },
-      { path: "add", component: <AddDevice /> },
+      { path: "add", component: <AddPlaylist /> },
       {
         path: "update/:id",
         component: <UpdateDevice />,
@@ -73,20 +75,24 @@ export const privateRoutes: routeType[] = [
     component: <RecordStore />,
     children: [
       { path: "", component: <DefaultRecordStore /> },
+      { path: "play/:id", component: <DefaultRecordStore /> },
       {
         path: "manager-approval",
         component: <ManagerApproval />,
       },
       {
-        path: "detail/:id",
-        component: <DetailService />,
-        permisioncode: "readServices",
+        path: "manager-approval/:id",
+        component: <ManagerApproval />,
       },
       {
         path: "update/:id",
-        component: <UpdateService />,
-        permisioncode: "updateService",
+        component: <UpdateRecord />,
       },
+      // {
+      //   path: "update/:id",
+      //   component: <UpdateService />,
+      //   permisioncode: "updateService",
+      // },
     ],
   },
   {

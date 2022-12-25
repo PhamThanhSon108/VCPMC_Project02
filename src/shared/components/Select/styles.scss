@@ -83,7 +83,7 @@
           border-right: none;
           border: none;
           border-radius: 8px;
-          border-radius: 12px 0 0 12px !important;
+          border-radius: 8px 0 0 8px !important;
           display: flex;
           align-items: center;
           justify-content: start;
@@ -109,7 +109,7 @@
         }
 
         .ant-input-wrapper.ant-input-group {
-          border-radius: 12px;
+          border-radius: 8px;
           height: var(--default-btn-height) !important;
           background-color: #2b2b3f;
           width: 450px;

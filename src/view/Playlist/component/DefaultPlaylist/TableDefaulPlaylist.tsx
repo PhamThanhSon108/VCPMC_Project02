@@ -8,15 +8,12 @@ import { useAppSelector } from "../../../../shared/hooks";
 export interface DataType {
   id: string;
   orderNumber: number;
-  recordName: string;
-  isrcCode: string;
   duration: string;
-  singer: string;
-  author: string;
-  type: string;
-  format: string;
-  deviceService: string;
-  useDuration: string;
+  numberRecords: string;
+  playlistName: string;
+  subjects: string[];
+  uploadDate: string;
+  createdBy: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -26,14 +23,14 @@ const columns: ColumnsType<DataType> = [
     key: "orderNumber",
   },
   {
-    title: "Tên bản ghi",
-    dataIndex: "recordName",
-    key: "recordName",
+    title: "Tiêu đề",
+    dataIndex: "playlistName",
+    key: "playlistName",
   },
   {
-    title: "Địa chỉ IP",
-    dataIndex: "isrcCode",
-    key: "isrcCode",
+    title: "Số lượng bản ghi",
+    dataIndex: "numberRecords",
+    key: "numberRecords",
   },
   {
     title: "Thời lượng",
@@ -41,57 +38,41 @@ const columns: ColumnsType<DataType> = [
     key: "duration",
   },
   {
-    title: "Ca sĩ",
-    dataIndex: "singer",
-    key: "singer",
-  },
-  {
-    title: "Tác giả",
-    dataIndex: "author",
-    key: "author",
-  },
-  {
-    title: "Thể loại",
-    dataIndex: "type",
-    key: "type",
-  },
+    title: "Chủ đề",
 
-  {
-    title: "Định dạng",
-    dataIndex: "format",
-    key: "format",
+    key: "subjects",
+    render: (_, { subjects }) => {
+      if (subjects.length >= 5) {
+        subjects = subjects.slice(0, 5);
+        subjects.push("...");
+      }
+      const newSubjects = subjects.map((value) => {
+        return <span className="tag-box-inside-table">{value}</span>;
+      });
+      return newSubjects;
+    },
   },
   {
-    title: "Định dạng",
-    dataIndex: "useDuration",
-    key: "useDuration",
+    title: "Ngày tạo",
+    dataIndex: "uploadDate",
+    key: "uploadDate",
   },
-
+  {
+    title: "Người tạo",
+    dataIndex: "createdBy",
+    key: "createdBy",
+  },
   {
     render: (_, { id }) => (
       <Link
-        to={id}
+        to={"/playlist/detail/123"}
         style={{
           textAlign: "center",
           color: " #FF7506",
           textDecoration: "underline",
         }}
       >
-        Cập nhật
-      </Link>
-    ),
-  },
-  {
-    render: (_, { id }) => (
-      <Link
-        to={id}
-        style={{
-          textAlign: "center",
-          color: " #FF7506",
-          textDecoration: "underline",
-        }}
-      >
-        Nghe
+        Chi tiết
       </Link>
     ),
   },
@@ -130,17 +111,14 @@ export default React.memo(function TableDefaultPlaylist({
         columns={columns}
         dataSource={[
           {
-            id: "Text",
-            orderNumber: 1,
-            recordName: "Text",
-            isrcCode: "Text",
-            duration: "Text",
-            singer: "Text",
-            author: "Text",
-            type: "Text",
-            format: "Text",
-            deviceService: "Text",
-            useDuration: "Text",
+            id: "12",
+            orderNumber: 15,
+            duration: "01:50:30",
+            numberRecords: "30",
+            playlistName: "Khúc hát 2022",
+            subjects: ["Pop", "Ballad", "Dingga", "Lofi", "Rock", "Bolero"],
+            uploadDate: "23/12/2022",
+            createdBy: "Phạm Thanh Sơn",
           },
         ]}
         size={"middle"}
@@ -157,14 +135,12 @@ export default React.memo(function TableDefaultPlaylist({
           value={numbRowInPage}
           type="number"
           onChange={(value) => {
-            if (value && value > 0 && value < 100) {
+            if (value && value > 0) {
               setTimeout(() => {
                 console.log("loop");
 
                 setNumbRowInPage(value);
               }, 3000);
-            } else {
-              setNumbRowInPage(13);
             }
           }}
         />

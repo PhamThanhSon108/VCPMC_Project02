@@ -17,13 +17,13 @@ function SearchCustom({
       }
     >
       <div className="selecter-custom__filter-item">
-        <Typography.Title
+        {/* <Typography.Title
           style={{ minWidth: "70px" }}
           level={5}
           className="selecter-custom__filter-item-title"
         >
           {title}
-        </Typography.Title>
+        </Typography.Title> */}
         <Search
           // onSearch={handleSearch}
           placeholder="Nhập từ khóa"

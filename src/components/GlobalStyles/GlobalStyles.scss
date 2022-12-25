@@ -15,7 +15,7 @@
 }
 body {
   box-sizing: border-box !important;
-
+  background: var(--default-background-popup-color);
   overflow-x: hidden; // overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 

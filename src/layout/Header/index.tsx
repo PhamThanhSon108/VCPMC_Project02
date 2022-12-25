@@ -10,9 +10,24 @@ const typePath = {
         path: "manager-approval",
         label: "Quản lý phê duyệt",
       },
+      play: { path: "play", label: "Phát" },
       update: { path: "update", label: "Câp nhật thiết bị" },
       detail: { path: "detail", label: "Chi tiết thiết bị" },
       providenumbers: { path: "providenumbers", label: "Danh sách cấp số" },
+    },
+  },
+  playlist: {
+    path: "playlist",
+    label: "Playlist",
+    child: {
+      add: {
+        path: "add",
+        label: "Thêm playlist mới",
+      },
+      update: {
+        path: "update",
+        label: "Cập nhật",
+      },
     },
   },
   service: {
@@ -100,18 +115,18 @@ export default function HeaderLayout() {
     if (arr.length == 1) {
       if (type != undefined && type[arr[0]] != undefined) {
         arrLocation.push({
-          label: type[arr[0]].label,
+          label: type[arr[0]]?.label,
           to: type[arr[0]]?.path,
-          parentLabel: type[arr[0]].parentLabel,
+          parentLabel: type[arr[0]]?.parentLabel,
         });
       }
       return;
     }
     if (arr.length > 1) {
       arrLocation.push({
-        label: type[arr[0]].label,
+        label: type[arr[0]]?.label,
         to: type[arr[0]]?.path,
-        parentLabel: type[arr[0]].parentLabel,
+        parentLabel: type[arr[0]]?.parentLabel,
       });
       const temp = arr[0];
       arr.shift();

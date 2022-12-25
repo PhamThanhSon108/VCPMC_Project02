@@ -177,12 +177,10 @@ const Profile = () => {
                     justifyContent: "start",
                     flexDirection: "column",
                     alignItems: "end",
+                    fontSize: "7px !important",
                   }}
                 >
-                  <div
-                    className="page__body-modify-container"
-                    style={{ display: "flex", justifyContent: "flex-end" }}
-                  >
+                  <div className="page__body-modify-container">
                     <div className="page__body-modify-container-icon">
                       {images.icon.modifyInformation}
                     </div>
@@ -198,7 +196,6 @@ const Profile = () => {
 
                   <div
                     className="page__body-modify-container"
-                    style={{ display: "flex", justifyContent: "flex-end" }}
                     onClick={handleOpenChangePasswordModel}
                   >
                     <div className="page__body-modify-container-icon">
@@ -209,10 +206,7 @@ const Profile = () => {
                     </div>
                   </div>
 
-                  <div
-                    className="page__body-modify-container"
-                    style={{ display: "flex", justifyContent: "flex-end" }}
-                  >
+                  <div className="page__body-modify-container">
                     <div className="page__body-modify-container-icon">
                       {images.icon.logout}
                     </div>

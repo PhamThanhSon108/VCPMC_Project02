@@ -290,3 +290,20 @@
     }
   }
 }
+
+.tag-box-inside-table {
+  & + & {
+    margin-left: 5px;
+  }
+  align-items: flex-start;
+  padding: 3px 8px 6px;
+  gap: 4px;
+
+  /* Text & stroke/Text and stroke 2 */
+  border: 1px solid #727288;
+  border-radius: 4px;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
