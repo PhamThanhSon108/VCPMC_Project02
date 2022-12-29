@@ -11,7 +11,7 @@ export default function TabsCustom({
   return (
     <>
       {position === "right" ? (
-        <div className={"devicepage__filter-last-item"}>
+        <div className={"selecter-custom__filter-last-item"}>
           <div className="custom-tab__wrap">{children}</div>;
         </div>
       ) : (

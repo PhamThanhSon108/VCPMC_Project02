@@ -28,6 +28,10 @@ const typePath = {
         path: "update",
         label: "Cập nhật",
       },
+      detail: {
+        path: "detail",
+        label: "Chi tiết Playlist",
+      },
     },
   },
   service: {

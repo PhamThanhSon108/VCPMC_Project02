@@ -45,6 +45,9 @@
       }
       &-body {
         background-color: transparent;
+        .ant-input {
+          border: none !important;
+        }
       }
 
       .ant-select-focused:not(.ant-select-disabled).ant-select:not(
@@ -81,7 +84,7 @@
       .ant-input-search {
         .ant-input-affix-wrapper {
           border-right: none;
-          border: none;
+          border: none !important;
           border-radius: 8px;
           border-radius: 8px 0 0 8px !important;
           display: flex;
@@ -91,7 +94,7 @@
           background-color: transparent;
           margin-right: 0px;
           input {
-            background-color: transparent;
+            background-color: transparent !important;
             color: var(--white) !important;
           }
           .ant-input {
@@ -114,11 +117,12 @@
           background-color: #2b2b3f;
           width: 450px;
         }
+
         .ant-input-group-addon {
           height: var(--default-btn-height);
 
           border-radius: 0px 8px 8px 0;
-          background-color: transparent;
+          background-color: transparent !important;
           .ant-btn.ant-btn-default.ant-btn-icon-only.ant-input-search-button {
             background-color: transparent;
             border-radius: 0 12px 12px 0;
@@ -167,5 +171,11 @@
         background-color: #282739 !important;
       }
     }
+  }
+}
+
+.selecter-custom__filter-item-body.sort {
+  .ant-input-wrapper.ant-input-group {
+    width: 100% !important;
   }
 }

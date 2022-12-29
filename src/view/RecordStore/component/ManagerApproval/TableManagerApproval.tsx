@@ -215,6 +215,7 @@ export default React.memo(function TableDefaultManagerApproval({
       <Table
         loading={devices.loading}
         className="table-custom"
+        
         columns={columns}
         dataSource={[
           {

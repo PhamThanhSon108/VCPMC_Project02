@@ -1,0 +1,15 @@
+.page__body.playlist-add .playlist-detail {
+  &-title {
+    color: white;
+    text-align: start;
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+  &-text {
+    color: white !important;
+    .ant-badge-status-text {
+      color: white;
+      padding-right: 15px;
+    }
+  }
+}

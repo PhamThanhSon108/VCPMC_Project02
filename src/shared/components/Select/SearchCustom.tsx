@@ -2,10 +2,12 @@ import { Typography } from "antd";
 import Search from "antd/lib/input/Search";
 import "./styles.scss";
 function SearchCustom({
+  sort,
   position,
   allowClear,
   title,
 }: {
+  sort?: boolean;
   position: "left" | "right";
   allowClear: boolean;
   title: string;
@@ -28,7 +30,7 @@ function SearchCustom({
           // onSearch={handleSearch}
           placeholder="Nhập từ khóa"
           allowClear={allowClear}
-          className="selecter-custom__filter-item-body"
+          className={`selecter-custom__filter-item-body ${sort && "sort"}`}
         />
       </div>
     </div>

@@ -109,7 +109,7 @@ const columns: ColumnsType<DataType> = [
           textDecoration: "underline",
         }}
       >
-        Gỡ
+        Thêm
       </Link>
     ),
   },
@@ -128,66 +128,19 @@ const itemRender = (_: any, type: string, originalElement: ReactNode) => {
   }
   return originalElement;
 };
-export default React.memo(function TableAddPlaylist({
-  statusActive,
-  statusConect,
-  keyWord,
-}: {
-  statusActive: "active" | "inactive" | "all";
-  statusConect: "conected" | "fail" | "all";
-  keyWord: string | undefined;
-}) {
+export default React.memo(function TableRecommendRecords() {
   const devices = useAppSelector((state) => state.device);
   let data: DataType[] | any = devices.devices;
   const [numbRowInPage, setNumbRowInPage] = useState<number>(13);
   return (
     <div style={{ position: "relative" }}>
       <Table
-        className="table-custom "
-        onRow={(data, index) => {
-          return {
-            onClick: (event) => {
-              console.log(data, "row");
-            },
-          };
-        }}
+        className="table-custom"
         columns={columns}
         onChange={function (selectedRowKeys, selectedRows, info) {
           console.log(selectedRowKeys, selectedRows, info);
         }}
         dataSource={[
-          {
-            key: "0122",
-            id: "String",
-            orderNumber: 1,
-            recordName: "Nước ngoài",
-            isrcCode: "KRA40105463",
-            duration: "3:40",
-            singer: "Phan Mạnh Quỳnh",
-            author: "Phan Mạnh Quỳnh",
-            type: "String",
-            format: "String",
-
-            useDuration: "String",
-            contractNumber: "AAKRA40105",
-            uploadDate: "22/12/2022 12:12:00",
-          },
-          {
-            key: "0122",
-            id: "String",
-            orderNumber: 1,
-            recordName: "Nước ngoài",
-            isrcCode: "KRA40105463",
-            duration: "3:40",
-            singer: "Phan Mạnh Quỳnh",
-            author: "Phan Mạnh Quỳnh",
-            type: "String",
-            format: "String",
-
-            useDuration: "String",
-            contractNumber: "AAKRA40105",
-            uploadDate: "22/12/2022 12:12:00",
-          },
           {
             key: "0122",
             id: "String",

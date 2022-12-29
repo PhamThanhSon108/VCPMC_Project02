@@ -73,7 +73,7 @@ export default function DefaultPlaylist() {
                     ],
                   }}
                 >
-                  <Link to={"update/123"}>{images.icon.detail}</Link>
+                  <Link to={"detail/123"}>{images.icon.detail}</Link>
                 </ItemCustom>{" "}
                 <ItemCustom
                   img={avtUrl}

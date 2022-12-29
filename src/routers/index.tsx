@@ -15,6 +15,7 @@ import Homepage from "../view/Homepage";
 import Playlist from "../view/Playlist";
 import AddPlaylist from "../view/Playlist/component/AddPlaylist";
 import DefaultPlaylist from "../view/Playlist/component/DefaultPlaylist";
+import DetailPlaylist from "../view/Playlist/component/DetailPlaylist";
 import ProvideNumberPage from "../view/ProvideNumbersPage";
 import ProvideNewNumber from "../view/ProvideNumbersPage/component/ProvideNewNumber";
 import ProvideNumbers from "../view/ProvideNumbersPage/component/ProvideNumbers";
@@ -62,7 +63,7 @@ export const privateRoutes: routeType[] = [
       },
       {
         path: "detail/:id",
-        component: <DetailDevice />,
+        component: <DetailPlaylist />,
       },
       {
         path: "providenumbers/:id",

@@ -18,7 +18,19 @@
 
 .playlist-add {
   box-sizing: border-box;
-
+  & .add-records.page__body-table {
+    background: #282739;
+    border-radius: 16px;
+    padding: 15px;
+  }
+  .page__title {
+    .ant-typography {
+      color: var(--white) !important;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    margin-bottom: 10px;
+  }
   .ant-col {
     box-sizing: border-box;
   }
@@ -124,5 +136,9 @@
   }
   .ant-divider-horizontal {
     margin: 15px 0px;
+  }
+
+  .ant-input-wrapper {
+    background: #33334d !important;
   }
 }
