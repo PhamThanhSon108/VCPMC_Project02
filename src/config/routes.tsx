@@ -16,5 +16,6 @@ const routes = {
   playlist: "/playlist",
   schedule: "/schedule",
   manage: "/manage",
+  contract: "/contract",
 };
 export default routes;

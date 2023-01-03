@@ -28,7 +28,7 @@ function SearchCustom({
         </Typography.Title> */}
         <Search
           // onSearch={handleSearch}
-          placeholder="Nhập từ khóa"
+          placeholder={title || "Nhập từ khóa"}
           allowClear={allowClear}
           className={`selecter-custom__filter-item-body ${sort && "sort"}`}
         />

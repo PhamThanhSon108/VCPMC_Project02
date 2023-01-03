@@ -12,6 +12,8 @@ import Device from "../view/DevicePage/components/Device";
 import DetailProvideNumbersInDevice from "../view/DevicePage/components/ListProvideNumber/DetailProvideNumbersInDevice";
 import UpdateDevice from "../view/DevicePage/components/UpdateDevice";
 import Homepage from "../view/Homepage";
+import Contracts from "../view/Manage/Contracts";
+import DefaultContracts from "../view/Manage/Contracts/components/DefaultContracts";
 import Playlist from "../view/Playlist";
 import AddPlaylist from "../view/Playlist/component/AddPlaylist";
 import DefaultPlaylist from "../view/Playlist/component/DefaultPlaylist";
@@ -25,6 +27,10 @@ import ManagerApproval from "../view/RecordStore/component/ManagerApproval";
 import UpdateRecord from "../view/RecordStore/component/UpdateRecord";
 import ReportPage from "../view/ReportPage";
 import Report from "../view/ReportPage/Components/Report";
+import Schedule from "../view/Schedule";
+import DefaultSchedule from "../view/Schedule/components/DefaultSchedule";
+import DetailSchedule from "../view/Schedule/components/DetailSchedule";
+import UpdateSchedule from "../view/Schedule/components/UpdateSchedule";
 import ServicePage from "../view/ServicePage";
 import AddService from "../view/ServicePage/components/AddService";
 import DetailService from "../view/ServicePage/components/DetailService";
@@ -97,13 +103,46 @@ export const privateRoutes: routeType[] = [
     ],
   },
   {
-    path: routes.provideNumbers,
-    component: <ProvideNumberPage />,
+    path: routes.schedule,
+    component: <Schedule />,
     children: [
       {
         path: "",
-        component: <ProvideNumbers />,
-        permisioncode: "readProvideNumber",
+        component: <DefaultSchedule />,
+      },
+      {
+        path: "detail/:id",
+        component: <DetailSchedule />,
+      },
+
+      {
+        path: "update/:id",
+        component: <UpdateSchedule />,
+      },
+      {
+        path: "create",
+        component: <ProvideNewNumber />,
+        permisioncode: "addProvideNumber",
+      },
+    ],
+  },
+
+  {
+    path: routes.contract,
+    component: <Contracts />,
+    children: [
+      {
+        path: "",
+        component: <DefaultContracts />,
+      },
+      {
+        path: "detail/:id",
+        component: <DetailSchedule />,
+      },
+
+      {
+        path: "update/:id",
+        component: <UpdateSchedule />,
       },
       {
         path: "create",

@@ -34,6 +34,20 @@ const typePath = {
       },
     },
   },
+  schedule: {
+    path: "schedule",
+    label: "Lập lịch phát",
+    child: {
+      detail: {
+        path: "detail",
+        label: "Chi tiết",
+      },
+      update: {
+        path: "update",
+        label: "Cập nhật",
+      },
+    },
+  },
   service: {
     parentLabel: "Dịch vụ",
     path: "service",
