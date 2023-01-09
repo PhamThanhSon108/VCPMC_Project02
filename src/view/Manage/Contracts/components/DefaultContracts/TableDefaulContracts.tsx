@@ -7,9 +7,13 @@ import { useAppSelector } from "../../../../../shared/hooks";
 
 export interface DataType {
   id: string;
-  scheduleName: string;
-  timePlay: string;
   orderNumber: number;
+  idContract: string;
+  contractName: string;
+  authorizer: string;
+  proprietaryRight: string;
+  contractualEffect: string;
+  creationDate: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -19,16 +23,35 @@ const columns: ColumnsType<DataType> = [
     key: "orderNumber",
   },
   {
-    title: "Tên lịch",
-    dataIndex: "scheduleName",
-    key: "scheduleName",
+    title: "Số hợp đồng",
+    dataIndex: "idContract",
+    key: "idContract",
   },
   {
-    title: "Thời gian phát",
-    dataIndex: "timePlay",
-    key: "timePlay",
+    title: "Tên hợp đồng",
+    dataIndex: "contractName",
+    key: "contractName",
   },
-
+  {
+    title: "Người ủy quyền",
+    dataIndex: "authorizer",
+    key: "authorizer",
+  },
+  {
+    title: "Quyền sở hữu",
+    dataIndex: "proprietaryRight",
+    key: "proprietaryRight",
+  },
+  {
+    title: "Hiệu lực hợp đồng",
+    dataIndex: "contractualEffect",
+    key: "contractualEffect",
+  },
+  {
+    title: "Ngày tạo",
+    dataIndex: "creationDate",
+    key: "creationDate",
+  },
   {
     render: (_, { id }) => (
       <Link
@@ -39,21 +62,7 @@ const columns: ColumnsType<DataType> = [
           textDecoration: "underline",
         }}
       >
-        Xem chi tiết
-      </Link>
-    ),
-  },
-  {
-    render: (_, { id }) => (
-      <Link
-        to={"/playlist/detail/123"}
-        style={{
-          textAlign: "center",
-          color: " #FF7506",
-          textDecoration: "underline",
-        }}
-      >
-        Xóa
+        Chi tiết
       </Link>
     ),
   },
@@ -72,7 +81,7 @@ const itemRender = (_: any, type: string, originalElement: ReactNode) => {
   }
   return originalElement;
 };
-export default React.memo(function TableDefaultSchedule({
+export default React.memo(function TableAuthorisations({
   statusActive,
   statusConect,
   keyWord,
@@ -92,10 +101,44 @@ export default React.memo(function TableDefaultSchedule({
         columns={columns}
         dataSource={[
           {
+            id: "HD123",
             orderNumber: 1,
-            id: "12",
-            scheduleName: "Lịch phát tháng 1",
-            timePlay: " 12/01/2022-28/12/2022",
+            idContract: "HD123",
+            contractName: "Hợp đồng uỷ quyền bài hát",
+            authorizer: "Vương Anh Tú",
+            proprietaryRight: "Người biểu diễn",
+            contractualEffect: "Còn thời hạn",
+            creationDate: "01/04/2021 15:53:13",
+          },
+          {
+            id: "HD123",
+            orderNumber: 1,
+            idContract: "HD123",
+            contractName: "Hợp đồng uỷ quyền bài hát",
+            authorizer: "Vương Anh Tú",
+            proprietaryRight: "Người biểu diễn",
+            contractualEffect: "Còn thời hạn",
+            creationDate: "01/04/2021 15:53:13",
+          },
+          {
+            id: "HD123",
+            orderNumber: 1,
+            idContract: "HD123",
+            contractName: "Hợp đồng uỷ quyền bài hát",
+            authorizer: "Vương Anh Tú",
+            proprietaryRight: "Người biểu diễn",
+            contractualEffect: "Còn thời hạn",
+            creationDate: "01/04/2021 15:53:13",
+          },
+          {
+            id: "HD123",
+            orderNumber: 1,
+            idContract: "HD123",
+            contractName: "Hợp đồng uỷ quyền bài hát",
+            authorizer: "Vương Anh Tú",
+            proprietaryRight: "Người biểu diễn",
+            contractualEffect: "Còn thời hạn",
+            creationDate: "01/04/2021 15:53:13",
           },
         ]}
         size={"middle"}

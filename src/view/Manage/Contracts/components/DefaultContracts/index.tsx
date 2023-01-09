@@ -2,7 +2,6 @@ import { Col, Row, Select, Typography } from "antd";
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
-import TableDefaulSchedule from "./TableDefaulContracts";
 import { images } from "../../../../../shared/assets/images";
 import SearchCustom from "../../../../../shared/components/Select/SearchCustom";
 import SelectFilter from "../../../../../shared/components/Select";
@@ -14,7 +13,9 @@ export default function DefaultContracts() {
   const [showList, setShowList] = useState<"cheatSheet" | "compact">(
     "cheatSheet"
   );
-  const [switchTab, setSwitchTab] = useState<"authorisations" | "mining">();
+  const [switchTab, setSwitchTab] = useState<"authorisations" | "mining">(
+    "authorisations"
+  );
   return (
     <div className="page">
       <Row className="page__title">
@@ -86,7 +87,7 @@ export default function DefaultContracts() {
               {images.icon.addDevice}
             </div>
             <Link
-              to={"update/fdsf"}
+              to={"add/fdsf"}
               className="page__body-modify-container-label"
               // onClick={handleAddDevice}
             >

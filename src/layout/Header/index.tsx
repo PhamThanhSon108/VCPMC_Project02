@@ -34,6 +34,24 @@ const typePath = {
       },
     },
   },
+  contract: {
+    path: "contract",
+    label: "Quản lý",
+    child: {
+      add: {
+        path: "add",
+        label: "Thêm hợp đồng",
+      },
+      update: {
+        path: "update",
+        label: "Cập nhật",
+      },
+      detail: {
+        path: "detail",
+        label: "Chi tiết",
+      },
+    },
+  },
   schedule: {
     path: "schedule",
     label: "Lập lịch phát",

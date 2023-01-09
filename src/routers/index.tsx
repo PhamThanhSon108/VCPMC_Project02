@@ -13,6 +13,7 @@ import DetailProvideNumbersInDevice from "../view/DevicePage/components/ListProv
 import UpdateDevice from "../view/DevicePage/components/UpdateDevice";
 import Homepage from "../view/Homepage";
 import Contracts from "../view/Manage/Contracts";
+import CreateContract from "../view/Manage/Contracts/components/CreateContract";
 import DefaultContracts from "../view/Manage/Contracts/components/DefaultContracts";
 import Playlist from "../view/Playlist";
 import AddPlaylist from "../view/Playlist/component/AddPlaylist";
@@ -141,11 +142,11 @@ export const privateRoutes: routeType[] = [
       },
 
       {
-        path: "update/:id",
-        component: <UpdateSchedule />,
+        path: "add/:id",
+        component: <CreateContract />,
       },
       {
-        path: "create",
+        path: "create/:id",
         component: <ProvideNewNumber />,
         permisioncode: "addProvideNumber",
       },
