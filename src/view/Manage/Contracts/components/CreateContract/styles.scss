@@ -3,7 +3,84 @@
     width: 150px;
     text-align: start;
   }
-  span {
+  // span {
+  //   color: white;
+  // }
+  .ant-input {
+    height: 40px;
+    min-width: 100px;
+  }
+  .sort {
+    width: 130px;
+  }
+  .ant-picker {
+    height: 40px;
+    background: #2b2b3f;
+    border-color: #727288;
+  }
+  .ant-select-selector {
+    height: 40px;
+    min-width: 130px;
+  }
+  .btn-upload.ant-btn.ant-btn-default {
+    background-color: transparent;
+    color: #ffac69;
+    border-radius: 8px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-color: #ffac69;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+  .ant-input-affix-wrapper.ant-input-password {
+    background: #2b2b3f;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    border-width: 1px !important;
+
+    &:hover {
+      background-color: transparent;
+    }
+    input.ant-input {
+      border: 0px solid red !important;
+      background-color: transparent;
+    }
+    .anticon {
+      color: #ffac69;
+    }
+  }
+  .infor-contract-authorisation {
+    width: 300px;
     color: white;
+    div {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0px;
+    }
+    .orange {
+      color: #ffac69;
+    }
+    .bold {
+      font-size: 16px;
+    }
+  }
+  .white-font-color {
+    color: white;
+  }
+  label {
+    color: white;
+    opacity: 0.8;
+    // text-align: center;
+    margin-bottom: 0px;
+  }
+  .ant-form-item {
+    margin-bottom: 10px;
   }
 }

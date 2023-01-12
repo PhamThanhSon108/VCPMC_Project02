@@ -27,6 +27,7 @@ import IconReport from "./icons/IconReport";
 import IconSchedule from "./icons/IconSchedule";
 import IconSetting from "./icons/IconSetting";
 import IconSevice from "./icons/IconSevice";
+import IconUpload from "./icons/IconUpload";
 import IconVietnamese from "./icons/IconVietnamese";
 import RecordStore from "./icons/RecordStore";
 import ImageFogotPassword from "./temps/ImageFogotPassword";
@@ -53,6 +54,7 @@ export const images = {
     approval: <IconApproval />,
     more: <IconMore />,
     detail: <IconDetail />,
+    upload:<IconUpload />,
 
     dashboard: <IconDashBoard />,
     setting: <IconSetting />,

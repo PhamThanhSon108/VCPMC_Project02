@@ -55,7 +55,7 @@ const columns: ColumnsType<DataType> = [
   {
     render: (_, { id }) => (
       <Link
-        to={"/schedule/detail/123"}
+        to={"/contract/detail/123"}
         style={{
           textAlign: "center",
           color: " #FF7506",

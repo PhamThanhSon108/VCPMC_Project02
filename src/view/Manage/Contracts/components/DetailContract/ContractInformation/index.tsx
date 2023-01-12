@@ -1,30 +1,19 @@
-import {
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import {
   Button,
   Col,
-  DatePicker,
   Divider,
   Form,
   Input,
   message,
-  Radio,
   Row,
-  Select,
-  Switch,
   Typography,
   Upload,
   UploadProps,
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import TextArea from "antd/lib/input/TextArea";
 import React from "react";
-import { images } from "../../../../../shared/assets/images";
-import IconUpload from "../../../../../shared/assets/images/icons/IconUpload";
-import "./styles.scss";
+import IconUpload from "../../../../../../shared/assets/images/icons/IconUpload";
 const props: UploadProps = {
   name: "file",
   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
@@ -42,17 +31,10 @@ const props: UploadProps = {
     }
   },
 };
-export default function CreateContract() {
+function ContractInformation() {
   const [form] = useForm();
   return (
-    <div
-      className="page create-contract"
-      style={{ marginRight: "35px", paddingRight: "35px" }}
-    >
-      <Row className="page__title">
-        <Typography.Title>Thêm hợp đồng ủy quyền mới</Typography.Title>
-      </Row>
-
+    <>
       <Form
         name="userProfileForm"
         layout="horizontal"
@@ -72,7 +54,7 @@ export default function CreateContract() {
               name="contractNumber"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>BH123</label>
             </Form.Item>
 
             <Form.Item
@@ -84,7 +66,7 @@ export default function CreateContract() {
               name="contractName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>Hợp đồng uỷ quyền tác phẩm âm nhạc</label>
             </Form.Item>
 
             <Form.Item
@@ -96,7 +78,7 @@ export default function CreateContract() {
               name="userLastnamef"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <DatePicker className="sort" />
+              <label>01/05/2021</label>
             </Form.Item>
             <Form.Item
               label={
@@ -107,7 +89,7 @@ export default function CreateContract() {
               name="userLastnameg"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <DatePicker className="sort" />
+              <label>01/12/2021</label>
             </Form.Item>
 
             <Form.Item
@@ -119,15 +101,7 @@ export default function CreateContract() {
               name="userLastname"
               rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
             >
-              <Select
-                options={[
-                  {
-                    value: "disabled",
-                    disabled: true,
-                    label: "Đang hiệu lực",
-                  },
-                ]}
-              />
+              <label>Còn thời hạn</label>
             </Form.Item>
           </Col>
 
@@ -197,14 +171,7 @@ export default function CreateContract() {
               name="contractNumber"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <Radio.Group>
-                <Radio value={1} className="white-font-color">
-                  Cá nhân
-                </Radio>
-                <Radio className="white-font-color" value={2}>
-                  Tổ chức
-                </Radio>
-              </Radio.Group>
+              <label>Cá nhân</label>
             </Form.Item>
 
             <Form.Item
@@ -217,7 +184,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>Còn thời hạn</label>
             </Form.Item>
 
             <Form.Item
@@ -229,7 +196,7 @@ export default function CreateContract() {
               name="authorizerBirthDay"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <DatePicker className="sort" />
+              <label>10/01/1984</label>
             </Form.Item>
             <Form.Item
               label={
@@ -240,14 +207,7 @@ export default function CreateContract() {
               name=""
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <Radio.Group>
-                <Radio className="white-font-color" value={1}>
-                  Nam
-                </Radio>
-                <Radio className="white-font-color" value={2}>
-                  Nữ
-                </Radio>
-              </Radio.Group>
+              <label>Nam</label>
             </Form.Item>
             <Form.Item
               label={
@@ -258,15 +218,7 @@ export default function CreateContract() {
               name="userLastname"
               rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
             >
-              <Select
-                options={[
-                  {
-                    value: "disabled",
-                    disabled: true,
-                    label: "Đang hiệu lực",
-                  },
-                ]}
-              />
+              <label>Việt nam</label>
             </Form.Item>
 
             <Form.Item
@@ -278,7 +230,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>(+84) 345 678 901</label>
             </Form.Item>
           </Col>
 
@@ -292,7 +244,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} className="sort" />
+              <label>123456789012</label>
             </Form.Item>
             <Form.Item
               label={
@@ -303,7 +255,7 @@ export default function CreateContract() {
               name="authorizerBirthDay"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <DatePicker className="sort" />
+              <label>10/07/2011</label>
             </Form.Item>
             <Form.Item
               label={
@@ -314,7 +266,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>Tp.HCM, Việt Nam</label>
             </Form.Item>
 
             <Form.Item
@@ -326,7 +278,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>92387489</label>
             </Form.Item>
 
             <Form.Item
@@ -338,7 +290,10 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <TextArea autoSize={{ minRows: 4, maxRows: 8 }} />
+              <label htmlFor="authorizerName">
+                69/53, Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, Thành phố Hồ
+                Chí Minh
+              </label>
             </Form.Item>
           </Col>
 
@@ -352,7 +307,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>nguyenvana@gmail.com</label>
             </Form.Item>
             <Form.Item
               validateTrigger={["onSubmit", "onBlur"]}
@@ -364,11 +319,16 @@ export default function CreateContract() {
               name="password"
               rules={[
                 { required: true, message: "Bạn chưa nhập mật khẩu" },
-                { min: 6, message: "Mật khẩu có độ dài tối thiểu là 6 ký tự" },
+                {
+                  min: 6,
+                  message: "Mật khẩu có độ dài tối thiểu là 6 ký tự",
+                },
               ]}
             >
               <Input.Password
-                placeholder="Nhập mật khẩu"
+                value="1234"
+                defaultValue={"123456789"}
+                disabled
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
@@ -383,7 +343,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>nguyenvana@gmail.com</label>
             </Form.Item>
             <Form.Item
               label={
@@ -394,7 +354,7 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>1231123312211223</label>
             </Form.Item>
             <Form.Item
               label={
@@ -405,36 +365,13 @@ export default function CreateContract() {
               name="authorizerName"
               rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <Input maxLength={100} />
+              <label>ACB - Ngân hàng Á Châu</label>
             </Form.Item>
-          </Col>
-          <div className="note">
-            <span>*</span>
-            <span>Là những trường thông tin bắt buộc</span>
-          </div>
-          <Col span={24} className="page__body-table">
-            <div
-              className="btn-wrap"
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                display: "flex",
-                width: "100%",
-                marginTop: "20px",
-              }}
-            >
-              <Button className="cancel">Hủy bỏ</Button>
-              <Button
-                className="confirm"
-                htmlType="submit"
-                form="changePasswordForm"
-              >
-                Lưu
-              </Button>
-            </div>
           </Col>
         </Row>
       </Form>
-    </div>
+    </>
   );
 }
+
+export default ContractInformation;

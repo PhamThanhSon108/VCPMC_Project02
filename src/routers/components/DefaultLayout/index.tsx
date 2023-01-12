@@ -22,10 +22,15 @@ export default function DefaultLayout({
   const [collapsed, setCollapsed] = useState(
     location.pathname.includes("manager-approval")
   );
+  const pathToHide = [
+    "record-store/update/",
+    "/playlist/add",
+    "/contract/detail/",
+  ];
   useEffect(() => {
     if (
-      location.pathname.includes("record-store/update/") ||
-      (location.pathname.includes("/playlist/add") && !collapsed)
+      !!pathToHide.find((item) => location.pathname.includes(item)) &&
+      !collapsed
     ) {
       setCollapsed(true);
     } else {

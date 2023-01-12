@@ -15,6 +15,7 @@ import Homepage from "../view/Homepage";
 import Contracts from "../view/Manage/Contracts";
 import CreateContract from "../view/Manage/Contracts/components/CreateContract";
 import DefaultContracts from "../view/Manage/Contracts/components/DefaultContracts";
+import DetailContract from "../view/Manage/Contracts/components/DetailContract";
 import Playlist from "../view/Playlist";
 import AddPlaylist from "../view/Playlist/component/AddPlaylist";
 import DefaultPlaylist from "../view/Playlist/component/DefaultPlaylist";
@@ -138,7 +139,7 @@ export const privateRoutes: routeType[] = [
       },
       {
         path: "detail/:id",
-        component: <DetailSchedule />,
+        component: <DetailContract />,
       },
 
       {
