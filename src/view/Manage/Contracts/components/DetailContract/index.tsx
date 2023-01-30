@@ -157,7 +157,11 @@ export default function DetailContract() {
                   {images.icon.addDevice}
                 </div>
                 <Link
-                  to={"add"}
+                  to={
+                    switchTab === "authorizedWork"
+                      ? "add-authorisation"
+                      : "add-mining"
+                  }
                   className="page__body-modify-container-label"
                   // onClick={handleAddDevice}
                 >

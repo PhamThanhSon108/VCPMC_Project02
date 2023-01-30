@@ -42,7 +42,7 @@ export const propsUpload: UploadProps = {
     }
   },
 };
-export default function CreateContract() {
+export default function CreateMiningContract() {
   const [form] = useForm();
   return (
     <div
@@ -50,7 +50,7 @@ export default function CreateContract() {
       style={{ marginRight: "35px", paddingRight: "35px" }}
     >
       <Row className="page__title">
-        <Typography.Title>Thêm hợp đồng ủy quyền mới</Typography.Title>
+        <Typography.Title>Thêm hợp đồng khai thác mới</Typography.Title>
       </Row>
 
       <Form
@@ -66,7 +66,7 @@ export default function CreateContract() {
             <Form.Item
               label={
                 <>
-                  <span>Số hợp đồng:</span> <span className="red">*</span>
+                  <span>Tên hợp đồng:</span> <span className="red">*</span>
                 </>
               }
               name="contractNumber"
@@ -78,7 +78,7 @@ export default function CreateContract() {
             <Form.Item
               label={
                 <>
-                  <span>Tên hợp đồng:</span> <span className="red">*</span>
+                  <span>Số hợp đồng:</span> <span className="red">*</span>
                 </>
               }
               name="contractName"
@@ -109,26 +109,6 @@ export default function CreateContract() {
             >
               <DatePicker className="sort" />
             </Form.Item>
-
-            <Form.Item
-              label={
-                <>
-                  <span>Tình trạng:</span> <span className="red">*</span>
-                </>
-              }
-              name="userLastname"
-              rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
-            >
-              <Select
-                options={[
-                  {
-                    value: "disabled",
-                    disabled: true,
-                    label: "Đang hiệu lực",
-                  },
-                ]}
-              />
-            </Form.Item>
           </Col>
 
           <Col span={8} style={{ paddingRight: "25px" }}>
@@ -150,67 +130,76 @@ export default function CreateContract() {
           </Col>
 
           <Col span={8} style={{ paddingRight: "25px" }}>
-            <Form.Item
-              name="contractNumber"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
-            >
-              <div className="infor-contract-authorisation">
-                <div className="orange bold">
-                  <span>Mức nhuận bút</span>
-                </div>
-                <div>
-                  <span className="bold">Quyền tác giả</span>
-                  <span>50%</span>
-                </div>
-                <div>
-                  <span className="bold">Mức nhuận bút</span>
-                </div>
-                <div>
-                  <span>Quyền của người biểu diễn</span>
-                  <span>50%</span>
-                </div>
-                <div>
-                  <span>Quyền của nhà sản xuất</span>
-                  <span>50%</span>
-                </div>
-                <div>
-                  <span>(bản ghi/video)</span>
-                </div>
+            <div className="type-mining-contract">
+              <div className="type-mining-contract-label">
+                <Radio />
+                <span>Trọn gói</span>
               </div>
-            </Form.Item>
+              <div>
+                <Form.Item
+                  label={
+                    <>
+                      <span>Giá trị hợp đồng:</span>{" "}
+                      <span className="red">*</span>
+                    </>
+                  }
+                  name="authorizerName"
+                  rules={[
+                    { required: true, message: "Tên hợp đồng là bắt buộc" },
+                  ]}
+                >
+                  <Input maxLength={100} />
+                </Form.Item>
+                <Form.Item
+                  label={
+                    <>
+                      <span>Giá trị phân phối (VNĐ)/ngày:</span>{" "}
+                      <span className="red">*</span>
+                    </>
+                  }
+                  name="authorizerName"
+                  rules={[
+                    { required: true, message: "Tên hợp đồng là bắt buộc" },
+                  ]}
+                >
+                  <Input maxLength={100} />
+                </Form.Item>
+              </div>
+            </div>
+
+            <div className="type-mining-contract">
+              <div className="type-mining-contract-label">
+                <Radio />
+                <span>Lượt phát</span>
+              </div>
+              <div>
+                <Form.Item
+                  label={
+                    <>
+                      <span>Giá trị lượt phát (VNĐ)/ngày:</span>{" "}
+                      <span className="red">*</span>
+                    </>
+                  }
+                  name="authorizerName"
+                  rules={[
+                    { required: true, message: "Tên hợp đồng là bắt buộc" },
+                  ]}
+                >
+                  <Input maxLength={100} />
+                </Form.Item>
+              </div>
+            </div>
           </Col>
 
           <Divider />
         </Row>
-        <Row className="page__title">
-          <Typography.Title>Thông tin pháp nhân ủy quyền</Typography.Title>
-        </Row>
+
         <Row className="page__body playlist-add">
           <Col span={8} style={{ paddingRight: "25px" }}>
             <Form.Item
               label={
                 <>
-                  <span>Pháp nhân ủy quyền:</span>{" "}
-                  <span className="red">*</span>
-                </>
-              }
-              name="contractNumber"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
-            >
-              <Radio.Group>
-                <Radio value={1} className="white-font-color">
-                  Cá nhân
-                </Radio>
-                <Radio className="white-font-color" value={2}>
-                  Tổ chức
-                </Radio>
-              </Radio.Group>
-            </Form.Item>
-
-            <Form.Item
-              label={
-                <>
-                  <span>Tên người ủy quyền:</span>{" "}
+                  <span>Tên đơn vị sử dụng:</span>{" "}
                   <span className="red">*</span>
                 </>
               }
@@ -223,6 +212,28 @@ export default function CreateContract() {
             <Form.Item
               label={
                 <>
+                  <span>Người đại diện:</span> <span className="red">*</span>
+                </>
+              }
+              name="authorizerName"
+              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+            >
+              <Input maxLength={100} />
+            </Form.Item>
+            <Form.Item
+              label={
+                <>
+                  <span>Chức vụ:</span> <span className="red">*</span>
+                </>
+              }
+              name="authorizerName"
+              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+            >
+              <Input maxLength={100} />
+            </Form.Item>
+            <Form.Item
+              label={
+                <>
                   <span>Ngày sinh:</span> <span className="red">*</span>
                 </>
               }
@@ -231,24 +242,7 @@ export default function CreateContract() {
             >
               <DatePicker className="sort" />
             </Form.Item>
-            <Form.Item
-              label={
-                <>
-                  <span>Giới tính:</span> <span className="red">*</span>
-                </>
-              }
-              name=""
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
-            >
-              <Radio.Group>
-                <Radio className="white-font-color" value={1}>
-                  Nam
-                </Radio>
-                <Radio className="white-font-color" value={2}>
-                  Nữ
-                </Radio>
-              </Radio.Group>
-            </Form.Item>
+
             <Form.Item
               label={
                 <>
@@ -280,9 +274,39 @@ export default function CreateContract() {
             >
               <Input maxLength={100} />
             </Form.Item>
+
+            <Form.Item
+              label={
+                <>
+                  <span>Email:</span> <span className="red">*</span>
+                </>
+              }
+              name="authorizerName"
+              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+            >
+              <Input maxLength={100} />
+            </Form.Item>
           </Col>
 
           <Col span={8} style={{ paddingRight: "25px" }}>
+            <Form.Item
+              label={
+                <>
+                  <span>Giới tính:</span> <span className="red">*</span>
+                </>
+              }
+              name=""
+              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+            >
+              <Radio.Group>
+                <Radio className="white-font-color" value={1}>
+                  Nam
+                </Radio>
+                <Radio className="white-font-color" value={2}>
+                  Nữ
+                </Radio>
+              </Radio.Group>
+            </Form.Item>
             <Form.Item
               label={
                 <>
@@ -346,7 +370,7 @@ export default function CreateContract() {
             <Form.Item
               label={
                 <>
-                  <span>Email:</span> <span className="red">*</span>
+                  <span>Tên đăng nhập:</span> <span className="red">*</span>
                 </>
               }
               name="authorizerName"
@@ -374,17 +398,7 @@ export default function CreateContract() {
                 }
               />
             </Form.Item>
-            <Form.Item
-              label={
-                <>
-                  <span>Tên đăng nhập:</span> <span className="red">*</span>
-                </>
-              }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
-            >
-              <Input maxLength={100} />
-            </Form.Item>
+
             <Form.Item
               label={
                 <>

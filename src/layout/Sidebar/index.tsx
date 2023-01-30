@@ -29,7 +29,7 @@ const items: MenuItem[] = [
   getItem("Kho bản ghi", routes.recordStore, images.icon.recordStore),
   getItem("Playlist", routes.playlist, images.icon.playlist),
   getItem("Lập lịch phát", routes.schedule, images.icon.schedule),
-  getItem(`Quản lý`, routes.manage, images.icon.manage, [
+  getItem(`Quản lý`, routes.contract, images.icon.manage, [
     getItem("Quản lý hợp đồng", routes.contract),
     getItem("Quản lý thiết bị", "/setting/account"),
     getItem("Đơn vị ủy quyền", "/setting/userlog"),
@@ -58,7 +58,6 @@ export default function Sidebar() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const handleOnselect = (item: SelectInfo) => {
-    console.log(item.key);
     navigate(`${item.key}`);
   };
   return (

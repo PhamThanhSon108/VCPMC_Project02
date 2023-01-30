@@ -27,6 +27,7 @@ import IconReport from "./icons/IconReport";
 import IconSchedule from "./icons/IconSchedule";
 import IconSetting from "./icons/IconSetting";
 import IconSevice from "./icons/IconSevice";
+import IconSuccess from "./icons/IconSuccess";
 import IconUpload from "./icons/IconUpload";
 import IconVietnamese from "./icons/IconVietnamese";
 import RecordStore from "./icons/RecordStore";
@@ -54,7 +55,8 @@ export const images = {
     approval: <IconApproval />,
     more: <IconMore />,
     detail: <IconDetail />,
-    upload:<IconUpload />,
+    upload: <IconUpload />,
+    sucess: <IconSuccess />,
 
     dashboard: <IconDashBoard />,
     setting: <IconSetting />,

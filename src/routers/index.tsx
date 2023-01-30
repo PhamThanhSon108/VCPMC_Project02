@@ -14,6 +14,9 @@ import UpdateDevice from "../view/DevicePage/components/UpdateDevice";
 import Homepage from "../view/Homepage";
 import Contracts from "../view/Manage/Contracts";
 import CreateContract from "../view/Manage/Contracts/components/CreateContract";
+import AddRecordToContract from "../view/Manage/Contracts/components/CreateContract/AddRecordsToAuthorisationContract";
+import CreateAuthorisationContract from "../view/Manage/Contracts/components/CreateContract/CreateAuthorisationContract";
+import CreateMiningContract from "../view/Manage/Contracts/components/CreateContract/CreateMiningContract";
 import DefaultContracts from "../view/Manage/Contracts/components/DefaultContracts";
 import DetailContract from "../view/Manage/Contracts/components/DetailContract";
 import Playlist from "../view/Playlist";
@@ -143,13 +146,21 @@ export const privateRoutes: routeType[] = [
       },
 
       {
-        path: "add/:id",
-        component: <CreateContract />,
+        path: "add-authorisation/:id",
+        component: <CreateAuthorisationContract />,
+      },
+      {
+        path: "add-mining/:id",
+        component: <CreateMiningContract />,
       },
       {
         path: "create/:id",
         component: <ProvideNewNumber />,
         permisioncode: "addProvideNumber",
+      },
+      {
+        path: "add-record/:id",
+        component: <AddRecordToContract />,
       },
     ],
   },

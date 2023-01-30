@@ -1,17 +1,42 @@
 import "./Profile.scss";
 
-import { Avatar, Button, Col, Form, Input, Row, Typography } from "antd";
+import { Avatar, Button, Col, Form, Input, Row, Spin, Typography } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import { useAppSelector } from "../../../shared/hooks";
+import { useAppDispatch, useAppSelector } from "../../../shared/hooks";
 import { images } from "../../../shared/assets/images";
 import { Link } from "react-router-dom";
 import ChangePasswordModal from "../../../shared/components/Modal/ChangePasswordModal";
+import {
+  getProfile,
+  updateProfile,
+} from "../../../modules/authentication/repository";
+import profileStore from "../../../modules/authentication/profileStore";
+import { publicToast } from "../../../shared/components/Toast";
 
 const Profile = () => {
   const avtUrl =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDrvKyt1Je7fm-ENkI9exhhqnzD4MfBrhAHw&usqp=CAU";
   const [form] = Form.useForm();
   const user = useAppSelector((state) => state.profile.user);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!user) {
+      setLoading(true);
+      getProfile()
+        .then((user) => {
+          console.log(user);
+          dispatch(profileStore.actions.fetchProfile({ user: user }));
+        })
+        .catch((mes) => {
+          publicToast(mes);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, []);
 
   const [isOpenModalChangePassword, setIsOpenModalChangePassword] =
     useState<boolean>(false);
@@ -21,8 +46,40 @@ const Profile = () => {
     setIsOpenModalChangePassword(true);
   }, []);
 
-  const handleUpdateProfile = () => {
-    setIsUpdateProfile(false);
+  const handleUpdateProfile = (data: any) => {
+    console.log(data, ["data"]);
+    setLoading(true);
+    updateProfile({ id: user?.id || "GoPp5LMQUNZXFCkgQkKa", data })
+      .then((mess) => {
+        dispatch(
+          profileStore.actions.fetchProfile({
+            user: {
+              ...user,
+              phoneNumber: data?.phoneNumber,
+              userFirstname: data.userFirstname,
+              userLastname: data.userLastname,
+              birthday: data.birthday,
+            },
+          })
+        );
+        publicToast({
+          type: "success",
+          message: "Cập nhật thông tin thành công",
+          description: "Cập nhật thông tin thành công",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        publicToast({
+          type: "error",
+          message: "Cập nhật thông tin thất bại!",
+          description: "Cập nhật thông tin thất bại!",
+        });
+      })
+      .finally(() => {
+        setIsUpdateProfile(false);
+        setLoading(false);
+      });
   };
   useEffect(() => {
     if (user != null) {
@@ -35,6 +92,11 @@ const Profile = () => {
         isModalOpen={isOpenModalChangePassword}
         setIsModalOpen={setIsOpenModalChangePassword}
       />
+      {loading ? (
+        <Spin size="large">
+          <div className="content" />
+        </Spin>
+      ) : null}
       <div>
         <div className="page-title">Thông tin cơ bản</div>
         <div className="profile-page" style={{ width: "100%" }}>
@@ -46,6 +108,7 @@ const Profile = () => {
               form={form}
               id="userProfileForm"
               onFinish={handleUpdateProfile}
+              onLoad={() => "đang load"}
             >
               <Row className="profile-form__box" justify="center">
                 <Col span={6} className="profile-avatar">
@@ -127,7 +190,7 @@ const Profile = () => {
                       <div className="main-form">
                         <Form.Item
                           label={"Tên đăng nhập"}
-                          name="userName"
+                          name="email"
                           rules={[{}]}
                         >
                           <Input disabled={true} />

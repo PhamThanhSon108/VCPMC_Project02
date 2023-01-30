@@ -43,7 +43,7 @@ const profileStore = createSlice({
     fetchProfile: (
       state,
       action: PayloadAction<{
-        user?: UserEntity;
+        user?: any;
         listPermissionCode?: string[];
       }>
     ) => {

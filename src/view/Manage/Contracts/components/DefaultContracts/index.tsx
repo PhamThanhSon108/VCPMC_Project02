@@ -87,7 +87,7 @@ export default function DefaultContracts() {
               {images.icon.addDevice}
             </div>
             <Link
-              to={"add/fdsf"}
+              to={"add-authorisation/fdsf"}
               className="page__body-modify-container-label"
               // onClick={handleAddDevice}
             >

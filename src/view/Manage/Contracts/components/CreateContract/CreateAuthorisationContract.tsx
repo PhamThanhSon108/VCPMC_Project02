@@ -22,6 +22,7 @@ import {
 import { useForm } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { images } from "../../../../../shared/assets/images";
 import IconUpload from "../../../../../shared/assets/images/icons/IconUpload";
 import "./styles.scss";
@@ -33,7 +34,6 @@ export const propsUpload: UploadProps = {
   },
   onChange(info) {
     if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
     }
     if (info.file.status === "done") {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -42,8 +42,12 @@ export const propsUpload: UploadProps = {
     }
   },
 };
-export default function CreateContract() {
+export default function CreateAuthorisationContract() {
   const [form] = useForm();
+  const navigate = useNavigate();
+  const handleSubmitForm = () => {
+    navigate("/contract/add-record/id");
+  };
   return (
     <div
       className="page create-contract"
@@ -54,12 +58,12 @@ export default function CreateContract() {
       </Row>
 
       <Form
-        name="userProfileForm"
+        name="createAuthorisationContract"
         layout="horizontal"
         requiredMark={false}
         form={form}
-        id="userProfileForm"
-        onFinish={() => {}}
+        id="createAuthorisationContract"
+        onFinish={handleSubmitForm}
       >
         <Row className="page__body playlist-add">
           <Col span={8} style={{ paddingRight: "25px" }}>
@@ -90,27 +94,27 @@ export default function CreateContract() {
             <Form.Item
               label={
                 <>
-                  <span>Từ ngày:</span> <span className="red">*</span>
+                  <span>Ngày hiệu lực:</span> <span className="red">*</span>
                 </>
               }
               name="userLastnamef"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <DatePicker className="sort" />
+              <DatePicker />
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Đến ngày:</span> <span className="red">*</span>
+                  <span>Ngày hết hạn:</span> <span className="red">*</span>
                 </>
               }
               name="userLastnameg"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <DatePicker className="sort" />
+              <DatePicker />
             </Form.Item>
 
-            <Form.Item
+            {/* <Form.Item
               label={
                 <>
                   <span>Tình trạng:</span> <span className="red">*</span>
@@ -128,7 +132,7 @@ export default function CreateContract() {
                   },
                 ]}
               />
-            </Form.Item>
+            </Form.Item> */}
           </Col>
 
           <Col span={8} style={{ paddingRight: "25px" }}>
@@ -138,7 +142,7 @@ export default function CreateContract() {
                   <span>Đính kèm tệp:</span> <span className="red">*</span>
                 </>
               }
-              name="contractNumber"
+              name="file"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
               <Upload {...propsUpload}>
@@ -160,7 +164,7 @@ export default function CreateContract() {
                 </div>
                 <div>
                   <span className="bold">Quyền tác giả</span>
-                  <span>50%</span>
+                  <span>0%</span>
                 </div>
                 <div>
                   <span className="bold">Mức nhuận bút</span>
@@ -261,9 +265,9 @@ export default function CreateContract() {
               <Select
                 options={[
                   {
-                    value: "disabled",
-                    disabled: true,
-                    label: "Đang hiệu lực",
+                    value: "vn",
+
+                    label: "Việt Nam",
                   },
                 ]}
               />
@@ -427,9 +431,9 @@ export default function CreateContract() {
               <Button
                 className="confirm"
                 htmlType="submit"
-                form="changePasswordForm"
+                form="createAuthorisationContract"
               >
-                Lưu
+                Tạo
               </Button>
             </div>
           </Col>

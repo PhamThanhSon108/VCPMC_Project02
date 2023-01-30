@@ -51,7 +51,6 @@ export default function ManagerApproval() {
     if (!check) {
       setSelectedKeys((pre) => pre.filter((value) => value !== id));
       setSelectedAllKeys(false);
-      console.log(selectedKeys);
       return;
     }
   };

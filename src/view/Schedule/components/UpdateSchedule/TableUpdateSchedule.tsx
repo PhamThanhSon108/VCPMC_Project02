@@ -114,8 +114,6 @@ export default React.memo(function TableUpdateSchedule({
           onChange={(value) => {
             if (value && value > 0) {
               setTimeout(() => {
-                console.log("loop");
-
                 setNumbRowInPage(value);
               }, 3000);
             }

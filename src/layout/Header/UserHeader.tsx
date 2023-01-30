@@ -144,8 +144,11 @@ export default function UserHeader() {
         />
         <span onClick={handleGotoProfile} className="userinfor">
           <Typography className="userinfor__wrapper">
-            <div className="name">{user?.userFullname || "Phạm Thanh Sơn"}</div>
-            <div className="welcome red">Admin</div>
+            <div className="name">
+              {user?.userFirstname + " " + user?.userLastname ||
+                "Phạm Thanh Sơn"}
+            </div>
+            <div className="welcome red">{user?.roleName}</div>
           </Typography>
         </span>
       </div>
