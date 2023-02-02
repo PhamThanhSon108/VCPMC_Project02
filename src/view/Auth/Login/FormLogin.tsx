@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase/config";
-import {
-  setToken,
-  updateProfileInStore,
-} from "../../../modules/authentication/profileStore";
+
 import { useAppDispatch } from "../../../shared/hooks";
-import { getProfile } from "../../../modules/authentication/repository";
+import { login } from "../../../modules/authentication/repository";
 import routes from "../../../config/routes";
+import { publicToast } from "../../../shared/components/Toast";
 type LoginStatus = "pending" | "fulfill" | "reject" | undefined;
 type FormData = {
   remember?: string;
@@ -19,41 +17,28 @@ type FormData = {
 export default React.memo(function FormLogin() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const [form] = Form.useForm();
-
   const [loginStatus, setLoginStatus] = useState<LoginStatus>();
-
   const handleFinish = (data: FormData) => {
     setLoginStatus("pending");
-    delete data.remember;
-    setTimeout(() => {
-      navigate("/record-store");
-    }, 300);
-    signInWithEmailAndPassword(auth, data.names.username, data.names.password)
-      .then((userCredential) => {
-        userCredential.user
-          .getIdToken()
-          .then((token) => {
-            setLoginStatus("fulfill");
-            document.cookie = `accessToken=${token}; SameSite=None; Secure`;
-            dispatch(setToken({ token, remember: true }));
-            setTimeout(() => {
-              navigate("/record-store");
-            }, 300);
-          })
-          .catch((error) => {
-            setLoginStatus("reject");
-          });
-        getProfile("iswFzKlZkLdTaJvJNEib").then((user) => {
-          dispatch(updateProfileInStore({ user }));
-        });
+    login({ email: data.names.username, password: data.names.password })
+      .then((user) => {
+        console.log(user, "gettoken");
+
+        navigate("/record-store");
+        //  sessionStorage.setItem(
+        //    "Auth Token",
+        //    user?._tokenResponse.refreshToken
+        //  );
+        setLoginStatus("fulfill");
       })
-      .catch(() => {
-        setLoginStatus("reject");
-        //  setErrorStatus(formatMessage("login.account.error"));
+      .catch((err) => {
+        publicToast({ type: "error", message: err, description: err });
         signOut(auth);
-      });
+        setLoginStatus("reject");
+      })
+      .finally(() => {});
+    delete data.remember;
   };
 
   return (
@@ -130,13 +115,6 @@ export default React.memo(function FormLogin() {
                 </div>
               </Checkbox>
             </Form.Item>
-            {loginStatus === "reject" && (
-              <div className="wrap-login__input">
-                <div className="loginform_field__label">
-                  <label className="active">Thông tin đăng nhập sai</label>
-                </div>
-              </div>
-            )}
 
             <Form.Item className="wrap-login__input center">
               <Button

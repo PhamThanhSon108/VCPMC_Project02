@@ -2,7 +2,7 @@
 
 :root {
   --default-btn-height: 40px;
-  --default-input-width: 400px;
+  --default-input-width: 25rem;
   --gray: #7e7d88;
   --orange: #ff7506;
   --while: #fff;
@@ -97,5 +97,11 @@ body {
     span {
       height: 44px !important;
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  :root {
+    font-size: 12px;
   }
 }

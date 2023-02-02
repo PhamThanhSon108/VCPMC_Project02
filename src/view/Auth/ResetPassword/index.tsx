@@ -2,10 +2,13 @@ import { images } from "../../../shared/assets/images";
 import { Button, Col } from "antd";
 
 import FormResetPassword from "./FormResetPassword";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ResetPassword() {
   const [reset, setReset] = useState<boolean>(false);
+  useEffect(() => {
+    document.title = "Quên mật khẩu";
+  }, []);
   return (
     <div className="wrap">
       <Col span={24} className="form__login">

@@ -4,10 +4,12 @@ import { Avatar, Button, Col, Form, Input, Row, Spin, Typography } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../shared/hooks";
 import { images } from "../../../shared/assets/images";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ChangePasswordModal from "../../../shared/components/Modal/ChangePasswordModal";
 import {
   getProfile,
+  logout,
+  logOut,
   updateProfile,
 } from "../../../modules/authentication/repository";
 import profileStore from "../../../modules/authentication/profileStore";
@@ -18,6 +20,7 @@ const Profile = () => {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDrvKyt1Je7fm-ENkI9exhhqnzD4MfBrhAHw&usqp=CAU";
   const [form] = Form.useForm();
   const user = useAppSelector((state) => state.profile.user);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -79,6 +82,20 @@ const Profile = () => {
       .finally(() => {
         setIsUpdateProfile(false);
         setLoading(false);
+      });
+  };
+  const handleLogOut = () => {
+    logout()
+      .then(() => {
+        dispatch(profileStore.actions.logOut());
+        navigate("/login");
+      })
+      .catch(() => {
+        publicToast({
+          type: "error",
+          description: "Có lỗi xảy ra",
+          message: "Đăng xuất thất bại",
+        });
       });
   };
   useEffect(() => {
@@ -226,6 +243,7 @@ const Profile = () => {
                           className="confirm"
                           htmlType="submit"
                           form="userProfileForm"
+                          loading={loading}
                         >
                           Lưu
                         </Button>
@@ -273,12 +291,12 @@ const Profile = () => {
                     <div className="page__body-modify-container-icon">
                       {images.icon.logout}
                     </div>
-                    <Link
-                      to={"/login"}
+                    <div
                       className="page__body-modify-container-label"
+                      onClick={handleLogOut}
                     >
                       Đăng xuất
-                    </Link>
+                    </div>
                   </div>
                 </Col>
               </Row>

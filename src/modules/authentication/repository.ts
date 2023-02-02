@@ -1,5 +1,11 @@
-import { rejects } from "assert";
-import { getAuth } from "firebase/auth";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  updatePassword,
+  UserCredential,
+} from "firebase/auth";
 import {
   collection,
   doc,
@@ -8,7 +14,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
 
 export default function repository() {}
 export const getProfile = async (email?: string) => {
@@ -51,4 +57,91 @@ export const updateProfile = async ({
     userLastname: data.userLastname,
     birthday: data.birthday,
   });
+};
+
+export const login = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  email = email.toLocaleLowerCase().trim();
+  const userQuery = query(collection(db, "user"), where("email", "==", email));
+  const userQuerySnapshot = await getDocs(userQuery);
+  let user: Array<any> | undefined = [];
+  userQuerySnapshot.forEach((doc) => {
+    user?.push(doc.data());
+  });
+  if (user?.length === 0) {
+    return Promise.reject("Tài khoản không tồn tại!");
+  }
+  await signInWithEmailAndPassword(auth, email, password)
+    .then((user: any) => {
+      localStorage.setItem("auth-token", user?._tokenResponse.refreshToken);
+      return Promise.resolve(user);
+    })
+    .catch((err) => {
+      return Promise.reject("Thông tin đăng nhập không đúng!");
+    });
+};
+
+export const logout = async () => {
+  await signOut(auth)
+    .then(() => {
+      localStorage.removeItem("auth-token");
+      Promise.resolve("Đăng xuất thành công");
+    })
+    .catch(() => {
+      Promise.reject("Có lỗi khi thực hiện đăng xuất");
+    });
+};
+
+export const logOut = createAsyncThunk("auth/logout", async () => {
+  await signOut(auth)
+    .then(() => {
+      Promise.resolve("Đăng xuất thành công");
+    })
+    .catch(() => {
+      Promise.reject("Có lỗi khi thực hiện đăng xuất");
+    });
+});
+
+export const changePassWord = async ({
+  currentPass,
+  newPass,
+}: {
+  currentPass: string;
+  newPass: string;
+}): Promise<any | { code: string; message: string }> => {
+  const user = auth?.currentUser;
+  if (user?.email && user) {
+    await signInWithEmailAndPassword(auth, user.email, currentPass)
+      .catch(() => {
+        return Promise.reject({
+          code: "401",
+          message: "Mật khẩu hiện tại không đúng!",
+        });
+      })
+      .then(() => {
+        updatePassword(user, newPass)
+          .then(() => {
+            return Promise.resolve({
+              code: "200",
+              message: "Cập nhật mật khẩu thành công!",
+            });
+          })
+          .catch((error) => {
+            return Promise.reject({
+              code: "401",
+              message: "Có lỗi xảy ra!",
+            });
+          });
+      });
+  } else {
+    return Promise.reject({
+      code: "401",
+      message: "Phiên đăng nhập đã hết hạn!",
+    });
+  }
 };

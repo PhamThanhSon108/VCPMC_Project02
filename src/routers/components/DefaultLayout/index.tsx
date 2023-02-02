@@ -7,6 +7,9 @@ import HeaderLayout from "../../../layout/Header";
 import UserHeader from "../../../layout/Header/UserHeader";
 
 import Sidebar from "../../../layout/Sidebar";
+import profileStore from "../../../modules/authentication/profileStore";
+import { getProfile } from "../../../modules/authentication/repository";
+import { useAppDispatch, useAppSelector } from "../../../shared/hooks";
 import Overview from "../../../view/Homepage/Overview";
 
 import "./DefaultLayout.scss";
@@ -19,6 +22,7 @@ export default function DefaultLayout({
   dashboard,
 }: DefaultLayoutProps) {
   const location = useLocation();
+  const user = useAppSelector((state) => state.profile.user);
   const [collapsed, setCollapsed] = useState(
     location.pathname.includes("manager-approval")
   );
@@ -27,6 +31,7 @@ export default function DefaultLayout({
     "/playlist/add",
     "/contract/detail/",
   ];
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (
       !!pathToHide.find((item) => location.pathname.includes(item)) &&
@@ -37,7 +42,19 @@ export default function DefaultLayout({
       setCollapsed(false);
     }
   }, [location.pathname]);
-
+  useEffect(() => {
+    if (!user) {
+      getProfile()
+        .then((user) => {
+          console.log(user);
+          dispatch(profileStore.actions.fetchProfile({ user: user }));
+        })
+        .catch((mes) => {})
+        .finally(() => {
+          console.log("fetch profile");
+        });
+    }
+  }, []);
   return (
     <>
       <Row className="wrap">

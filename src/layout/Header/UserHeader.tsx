@@ -1,4 +1,4 @@
-import { Avatar, Popover, Select, Typography } from "antd";
+import { Avatar, Popover, Select, Skeleton, Typography } from "antd";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -136,19 +136,35 @@ export default function UserHeader() {
             },
           ]}
         />
-        <Avatar
-          size={"large"}
-          src={avtUrl}
-          onClick={handleGotoProfile}
-          className="userinfor"
-        />
+        {user ? (
+          <Avatar
+            size={"large"}
+            src={avtUrl}
+            onClick={handleGotoProfile}
+            className="userinfor"
+          />
+        ) : null}
         <span onClick={handleGotoProfile} className="userinfor">
           <Typography className="userinfor__wrapper">
             <div className="name">
-              {user?.userFirstname + " " + user?.userLastname ||
-                "Phạm Thanh Sơn"}
+              {user ? (
+                user?.userFirstname + " " + user?.userLastname ||
+                "Phạm Thanh Sơn"
+              ) : (
+                <div
+                  style={{ marginTop: "1rem" }}
+                  className="skeleton-group-avt"
+                >
+                  <Skeleton
+                    avatar
+                    active
+                    paragraph={{ width: "7rem", rows: 1 }}
+                    title={{ width: "150%" }}
+                  />
+                </div>
+              )}
             </div>
-            <div className="welcome red">{user?.roleName}</div>
+            {user ? <div className="welcome red">{user?.roleName}</div> : null}
           </Typography>
         </span>
       </div>

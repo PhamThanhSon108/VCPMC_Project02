@@ -146,6 +146,18 @@
 
 .userinfor {
   cursor: pointer;
+  .skeleton-group-avt {
+    margin-right: 10px;
+    .ant-skeleton-paragraph {
+      margin-top: 0 !important;
+      li {
+        margin-left: 0;
+      }
+    }
+    .ant-skeleton-title {
+      margin-top: 0px;
+    }
+  }
 }
 
 .ant-select.default-select {

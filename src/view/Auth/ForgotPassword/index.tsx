@@ -1,11 +1,14 @@
 import "./ForgotPassword.scss";
 import { images } from "../../../shared/assets/images";
 import { Col } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormForgotPassword from "./FormForgotPassword";
 
 export default function ForgotPassword() {
   const [reset, setReset] = useState<boolean>(false);
+  useEffect(() => {
+    document.title = "Quên mật khẩu";
+  }, []);
   return (
     <div className="wrap">
       <Col span={24} className="form__login">

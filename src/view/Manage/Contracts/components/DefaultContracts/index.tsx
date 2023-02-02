@@ -87,7 +87,11 @@ export default function DefaultContracts() {
               {images.icon.addDevice}
             </div>
             <Link
-              to={"add-authorisation/fdsf"}
+              to={
+                switchTab === "authorisations"
+                  ? "add-authorisation/id"
+                  : "add-mining/id"
+              }
               className="page__body-modify-container-label"
               // onClick={handleAddDevice}
             >

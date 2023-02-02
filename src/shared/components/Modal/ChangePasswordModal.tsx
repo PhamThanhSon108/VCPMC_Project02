@@ -1,5 +1,7 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Col, Form, Modal, Row, Input, Button } from "antd";
+import { useEffect, useState } from "react";
+import { changePassWord } from "../../../modules/authentication/repository";
 import { publicToast } from "../Toast";
 import "./ChangePasswordModal.scss";
 
@@ -15,14 +17,41 @@ function ChangePasswordModal({
   const showModal = () => {
     setIsModalOpen(true);
   };
-
-  const handleOk = () => {
-    publicToast({
-      type: "error",
-      message: "Thành công",
-      description: "Cập nhật mật khẩu thành công",
-    });
-    setIsModalOpen(false);
+  const [loading, setLoading] = useState<boolean>();
+  const handleChangePassWord = (data: any) => {
+    setLoading(true);
+    if (data.currentPassword === data.password) {
+      publicToast({
+        type: "error",
+        message: "Mật khẩu mới không được trùng với mật khẩu hiện tại",
+        description: "Cập nhật mật khẩu thành công",
+      });
+      setLoading(false);
+      return;
+    }
+    changePassWord({
+      currentPass: data?.currentPassword,
+      newPass: data?.password,
+    })
+      .then((success: { code?: string; message?: string }) => {
+        publicToast({
+          type: "success",
+          message: success?.message || "Cập nhật thành công",
+          description: "Cập nhật mật khẩu thành công",
+        });
+        setIsModalOpen(false);
+        form.resetFields();
+      })
+      .catch((error) => {
+        publicToast({
+          type: "error",
+          message: error?.message || "Có lỗi xảy ra!",
+          description: "Cập nhật mật khẩu thành công",
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleCancel = () => {
@@ -35,7 +64,7 @@ function ChangePasswordModal({
         className="modal-container"
         title="THAY ĐỔI MẬT KHẨU"
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={handleChangePassWord}
         onCancel={handleCancel}
         footer={
           <Row>
@@ -47,6 +76,7 @@ function ChangePasswordModal({
                 className="confirm"
                 htmlType="submit"
                 form="changePasswordForm"
+                loading={loading}
               >
                 Lưu
               </Button>
@@ -68,7 +98,7 @@ function ChangePasswordModal({
               name="changePasswordForm"
               layout="vertical"
               form={form}
-              onFinish={handleOk}
+              onFinish={handleChangePassWord}
             >
               <Row className="profile-form__box modal-wrap" justify="center">
                 <Col span={24}>
@@ -82,7 +112,7 @@ function ChangePasswordModal({
                       rules={[
                         {
                           required: true,
-                          message: "Bạn chưa nhập mật khẩu mới",
+                          message: "Bạn chưa nhập mật khẩu hiện tại",
                         },
                         {
                           min: 6,
