@@ -41,7 +41,6 @@ export default function ManagerApproval() {
       return;
     }
     if (check && id) {
-      console.log(check, id, "check");
       if (selectedKeys.length === 3) {
         setSelectedAllKeys(true);
       }

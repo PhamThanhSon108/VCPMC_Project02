@@ -175,91 +175,91 @@ export default function HeaderLayout() {
   return (
     <div style={{ width: "60vw", backgroundColor: "transparent" }}>
       {
-        <Breadcrumb style={{ width: "60vw", backgroundColor: "transparent" }}>
+        <Breadcrumb
+          style={{
+            width: "60vw",
+            backgroundColor: "transparent",
+            fontSize: "1rem",
+            fontWeight: "500",
+          }}
+        >
           <BreadcrumbItem className="breadcrumb">
             {location.pathname === "/" ? (
               "Dashboard"
             ) : (
               <>
-                {arrLocation?.map((item: any, index: any) => {
-                  return (
-                    <>
-                      {item?.parentLabel ? (
-                        <>
-                          <Link
-                            style={{
-                              color: `${
-                                index !== arrLocation.length - 1
-                                  ? "#ff7506"
-                                  : "#7E7D88"
-                              }`,
-                              marginRight: 15,
-                              fontWeight: 700,
-                              fontSize: 20,
-                            }}
-                            to={"/" + item.to}
-                          >
-                            {item?.parentLabel}
-                          </Link>
+                {arrLocation.length > 1 &&
+                  arrLocation?.map((item: any, index: any) => {
+                    return (
+                      <>
+                        {item?.parentLabel ? (
+                          <>
+                            <Link
+                              style={{
+                                color: `${"#7E7D88"}`,
+                                marginRight: 5,
+                                fontWeight: 600,
+                                fontSize: "1rem",
+                              }}
+                              to={"/" + item.to}
+                            >
+                              {item?.parentLabel}
+                            </Link>
+                            <span
+                              style={{
+                                color: "#7E7D88",
+                                marginRight: 5,
+                                fontWeight: 500,
+                                fontSize: "1rem",
+                              }}
+                            >
+                              {">"}
+                            </span>
+                          </>
+                        ) : null}
+
+                        {index === arrLocation.length - 1 ? (
                           <span
                             style={{
-                              color: "#7E7D88",
-                              marginRight: 15,
-                              fontWeight: 700,
-                              fontSize: 20,
+                              color: `${"#7E7D88"}`,
+                              marginRight: 5,
+                              fontWeight: 500,
+                              fontSize: "1rem",
+                            }}
+                          >
+                            {item?.label}
+                          </span>
+                        ) : (
+                          <>
+                            <Link
+                              style={{
+                                color: `${"#7E7D88"}`,
+                                marginRight: 5,
+                                fontWeight: 500,
+                                fontSize: "1rem",
+                              }}
+                              to={"/" + item.to}
+                            >
+                              {item?.label}
+                            </Link>
+                          </>
+                        )}
+
+                        {index < arrLocation?.length - 1 ? (
+                          <span
+                            style={{
+                              color: "#ff7506",
+                              marginRight: 5,
+                              fontWeight: 500,
+                              fontSize: "1rem",
                             }}
                           >
                             {">"}
                           </span>
-                        </>
-                      ) : null}
-
-                      {index === arrLocation.length - 1 ? (
-                        <span
-                          style={{
-                            color: `${"#ff7506"}`,
-                            marginRight: 15,
-                            fontWeight: 700,
-                            fontSize: 20,
-                          }}
-                        >
-                          {item?.label}
-                        </span>
-                      ) : (
-                        <>
-                          <Link
-                            style={{
-                              color: `${
-                                index === arrLocation.length - 1
-                                  ? "#ff7506"
-                                  : "#7E7D88"
-                              }`,
-                              marginRight: 15,
-                              fontWeight: 700,
-                              fontSize: 20,
-                            }}
-                            to={"/" + item.to}
-                          >
-                            {item?.label}
-                          </Link>
-                        </>
-                      )}
-
-                      {index < arrLocation?.length - 1 ? (
-                        <span
-                          style={{
-                            color: "#7E7D88",
-                            marginRight: 15,
-                            fontWeight: 700,
-                            fontSize: 20,
-                          }}
-                        >
-                          {">"}
-                        </span>
-                      ) : null}
-                    </>
-                  );
-                })}
+                        ) : null}
+                      </>
+                    );
+                  })}
               </>
             )}
           </BreadcrumbItem>

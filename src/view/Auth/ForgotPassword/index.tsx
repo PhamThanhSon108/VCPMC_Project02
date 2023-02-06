@@ -9,6 +9,7 @@ export default function ForgotPassword() {
   useEffect(() => {
     document.title = "Quên mật khẩu";
   }, []);
+
   return (
     <div className="wrap">
       <Col span={24} className="form__login">

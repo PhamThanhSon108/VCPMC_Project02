@@ -21,9 +21,7 @@ import {
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../../../shared/assets/images";
 import IconUpload from "../../../../../shared/assets/images/icons/IconUpload";
 import "./styles.scss";
 export const propsUpload: UploadProps = {
@@ -113,26 +111,6 @@ export default function CreateAuthorisationContract() {
             >
               <DatePicker />
             </Form.Item>
-
-            {/* <Form.Item
-              label={
-                <>
-                  <span>Tình trạng:</span> <span className="red">*</span>
-                </>
-              }
-              name="userLastname"
-              rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
-            >
-              <Select
-                options={[
-                  {
-                    value: "disabled",
-                    disabled: true,
-                    label: "Đang hiệu lực",
-                  },
-                ]}
-              />
-            </Form.Item> */}
           </Col>
 
           <Col span={8} style={{ paddingRight: "25px" }}>

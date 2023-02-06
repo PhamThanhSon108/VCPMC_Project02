@@ -64,12 +64,6 @@ export default function DefaultLayout({
           collapsed={collapsed}
           collapsedWidth={20}
           className="sider__left"
-          // style={{
-          //   width: "170px",
-          //   // maxWidth: "170px",
-          //   minWidth: "none",
-          //   flex: "none",
-          // }}
           onCollapse={() => {
             setCollapsed(false);
           }}
