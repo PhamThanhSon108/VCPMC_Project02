@@ -1,5 +1,6 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import {
+  Badge,
   Button,
   Col,
   Divider,
@@ -12,8 +13,44 @@ import {
   UploadProps,
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import React from "react";
+import { timeStamp } from "console";
+import { Timestamp } from "firebase/firestore";
+import React, { useState } from "react";
 import IconUpload from "../../../../../../shared/assets/images/icons/IconUpload";
+import { useAppSelector } from "../../../../../../shared/hooks";
+import { authorisationContract } from "../../CreateContract/CreateAuthorisationContract";
+const convertTimeStampToDateString = (timeStamp: Timestamp) => {
+  return new Date(timeStamp?.seconds * 1000).toLocaleDateString();
+};
+const checkContractExpiration = ({
+  timeStamp1,
+  timeStamp2,
+}: {
+  timeStamp1?: Timestamp;
+  timeStamp2: Timestamp;
+}) => {
+  const today = timeStamp1?.seconds
+    ? new Date(timeStamp1?.seconds * 1000)
+    : new Date();
+  const expirationDate = new Date(timeStamp2?.seconds * 1000);
+  if (today <= expirationDate) {
+    return (
+      <Badge
+        text="Còn thời hạn"
+        status="processing"
+        style={{ color: "white" }}
+      ></Badge>
+    );
+  } else
+    return (
+      <Badge
+        text="Hết thời hạn"
+        status="error"
+        style={{ color: "white" }}
+      ></Badge>
+    );
+};
+
 const props: UploadProps = {
   name: "file",
   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
@@ -33,6 +70,10 @@ const props: UploadProps = {
 };
 function ContractInformation() {
   const [form] = useForm();
+  const contract: authorisationContract | any = useAppSelector(
+    (state) => state.contract.contract
+  );
+
   return (
     <>
       <Form
@@ -48,60 +89,74 @@ function ContractInformation() {
             <Form.Item
               label={
                 <>
-                  <span>Số hợp đồng:</span> <span className="red">*</span>
+                  <span>Số hợp đồng</span>
                 </>
               }
               name="contractNumber"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>BH123</label>
+              <label>{contract?.contractNumber}</label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Tên hợp đồng:</span> <span className="red">*</span>
+                  <span>Tên hợp đồng</span>
                 </>
               }
               name="contractName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>Hợp đồng uỷ quyền tác phẩm âm nhạc</label>
+              <label>{contract?.contractName}</label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Từ ngày:</span> <span className="red">*</span>
+                  <span>Từ ngày</span>
                 </>
               }
               name="userLastnamef"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>01/05/2021</label>
+              <label>
+                {convertTimeStampToDateString(contract?.effectiveDate)}
+              </label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Đến ngày:</span> <span className="red">*</span>
+                  <span>Đến ngày</span>
                 </>
               }
               name="userLastnameg"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>01/12/2021</label>
+              <label>
+                {convertTimeStampToDateString(contract?.expirationDate)}
+              </label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Tình trạng:</span> <span className="red">*</span>
+                  <span>Tình trạng</span>
                 </>
               }
               name="userLastname"
               rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
             >
-              <label>Còn thời hạn</label>
+              <label>
+                {contract?.reasonCancelContract ? (
+                  <Badge
+                    text="Bị hủy"
+                    status="warning"
+                    style={{ color: "white" }}
+                  ></Badge>
+                ) : (
+                  checkContractExpiration({
+                    timeStamp2: contract?.expirationDate,
+                  })
+                )}
+              </label>
             </Form.Item>
           </Col>
 
@@ -109,17 +164,15 @@ function ContractInformation() {
             <Form.Item
               label={
                 <>
-                  <span>Đính kèm tệp:</span> <span className="red">*</span>
+                  <span>Đính kèm tệp</span>
                 </>
               }
               name="contractNumber"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <Upload {...props}>
-                <Button icon={<IconUpload />} className="btn-upload">
-                  Tải lên
-                </Button>
-              </Upload>
+              <a href={contract?.fileURL} target="_blank" download="docx">
+                {contract?.contractName}.doc
+              </a>
             </Form.Item>
           </Col>
 
@@ -134,21 +187,18 @@ function ContractInformation() {
                 </div>
                 <div>
                   <span className="bold">Quyền tác giả</span>
-                  <span>50%</span>
+                  <span>{contract?.ownership?.copyRight || 0}%</span>
                 </div>
                 <div>
                   <span className="bold">Mức nhuận bút</span>
                 </div>
                 <div>
                   <span>Quyền của người biểu diễn</span>
-                  <span>50%</span>
+                  <span>{contract?.ownership?.performersRight || 0}%</span>
                 </div>
                 <div>
                   <span>Quyền của nhà sản xuất</span>
-                  <span>50%</span>
-                </div>
-                <div>
-                  <span>(bản ghi/video)</span>
+                  <span>{contract?.ownership?.executiveRight || 0}%</span>
                 </div>
               </div>
             </Form.Item>
@@ -164,73 +214,77 @@ function ContractInformation() {
             <Form.Item
               label={
                 <>
-                  <span>Pháp nhân ủy quyền:</span>{" "}
-                  <span className="red">*</span>
+                  <span>Pháp nhân ủy quyền</span>{" "}
                 </>
               }
               name="contractNumber"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>Cá nhân</label>
+              <label>
+                {contract?.unit === "personnal" ? "Cá nhân" : "Tổ chức"}
+              </label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Tên người ủy quyền:</span>{" "}
-                  <span className="red">*</span>
+                  <span>Tên người ủy quyền</span>{" "}
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>Còn thời hạn</label>
+              <label>{contract?.authorisedPerson?.name}</label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Ngày sinh:</span> <span className="red">*</span>
+                  <span>Ngày sinh</span>
                 </>
               }
               name="authorizerBirthDay"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>10/01/1984</label>
+              <label>
+                {convertTimeStampToDateString(
+                  contract?.authorisedPerson?.birthday
+                )}
+              </label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Giới tính:</span> <span className="red">*</span>
+                  <span>Giới tính</span>
                 </>
               }
               name=""
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>Nam</label>
+              <label>
+                {contract?.authorisedPerson?.gender === "1" ? "Nam" : "Nữ"}
+              </label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Quốc tịch:</span> <span className="red">*</span>
+                  <span>Quốc tịch</span>
                 </>
               }
               name="userLastname"
               rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
             >
-              <label>Việt nam</label>
+              <label>{contract?.authorisedPerson?.citizenship}</label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Số điện thoại:</span> <span className="red">*</span>
+                  <span>Số điện thoại</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>(+84) 345 678 901</label>
+              <label>{contract?.authorisedPerson?.phone}</label>
             </Form.Item>
           </Col>
 
@@ -238,61 +292,60 @@ function ContractInformation() {
             <Form.Item
               label={
                 <>
-                  <span>CMND/CCCD:</span> <span className="red">*</span>
+                  <span>CMND/CCCD</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>123456789012</label>
+              <label>{contract?.authorisedPerson?.identificationNumber}</label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Ngày cấp:</span> <span className="red">*</span>
+                  <span>Ngày cấp</span>
                 </>
               }
               name="authorizerBirthDay"
               rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
             >
-              <label>10/07/2011</label>
+              <label>
+                {convertTimeStampToDateString(
+                  contract?.authorisedPerson?.issueDate
+                )}
+              </label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Nơi cấp:</span> <span className="red">*</span>
+                  <span>Nơi cấp</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>Tp.HCM, Việt Nam</label>
+              <label>{contract?.authorisedPerson?.placeOfIssue}</label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Mã số thuế:</span> <span className="red">*</span>
+                  <span>Mã số thuế</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>92387489</label>
+              <label>{contract?.authorisedPerson?.taxCode}</label>
             </Form.Item>
 
             <Form.Item
               label={
                 <>
-                  <span>Nơi cứ trú:</span> <span className="red">*</span>
+                  <span>Nơi cứ trú</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
               <label htmlFor="authorizerName">
-                69/53, Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, Thành phố Hồ
-                Chí Minh
+                {contract?.authorisedPerson?.residence}
               </label>
             </Form.Item>
           </Col>
@@ -301,19 +354,18 @@ function ContractInformation() {
             <Form.Item
               label={
                 <>
-                  <span>Email:</span> <span className="red">*</span>
+                  <span>Email</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>nguyenvana@gmail.com</label>
+              <label>{contract?.authorisedPerson?.email}</label>
             </Form.Item>
             <Form.Item
               validateTrigger={["onSubmit", "onBlur"]}
               label={
                 <>
-                  <span>Mật khẩu:</span> <span className="red">*</span>
+                  <span>Mật khẩu</span>
                 </>
               }
               name="password"
@@ -327,7 +379,7 @@ function ContractInformation() {
             >
               <Input.Password
                 value="1234"
-                defaultValue={"123456789"}
+                defaultValue={contract?.authorisedPerson?.password}
                 disabled
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -337,35 +389,32 @@ function ContractInformation() {
             <Form.Item
               label={
                 <>
-                  <span>Tên đăng nhập:</span> <span className="red">*</span>
+                  <span>Tên đăng nhập</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>nguyenvana@gmail.com</label>
+              <label>{contract?.authorisedPerson?.email}</label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Số tài khoản:</span> <span className="red">*</span>
+                  <span>Số tài khoản</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>1231123312211223</label>
+              <label>{contract?.authorisedPerson?.numberedAccount}</label>
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Ngân hàng:</span> <span className="red">*</span>
+                  <span>Ngân hàng</span>
                 </>
               }
               name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
             >
-              <label>ACB - Ngân hàng Á Châu</label>
+              <label>{<label>{contract?.authorisedPerson?.bank}</label>}</label>
             </Form.Item>
           </Col>
         </Row>

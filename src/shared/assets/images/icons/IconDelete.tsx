@@ -13,16 +13,16 @@ export default React.memo(function IconDelete() {
       <path
         d="M34 18L18 34"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M18 18L34 34"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

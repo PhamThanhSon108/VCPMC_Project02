@@ -6,6 +6,38 @@
   // span {
   //   color: white;
   // }
+  .upload {
+    border-radius: 7px;
+    color: #ff7506;
+    border: 1px solid #ff7506;
+    background-color: transparent;
+    height: 40px;
+    text-align: center;
+    width: 6rem;
+    line-height: 35px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    span {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 14px;
+      svg {
+        padding-top: 2px;
+        width: 17px !important;
+      }
+      padding-right: 5px;
+    }
+  }
+  input[type="file"]::-webkit-file-upload-button {
+    /* style goes here */
+    display: none;
+    &:focus {
+      border: none !important;
+    }
+  }
   .ant-input {
     height: 40px;
     min-width: 100px;

@@ -8,47 +8,44 @@ import { auth } from "./firebase/config";
 import { v4 } from "uuid";
 import PrivateRoute from "./routers/PrivateRoute";
 import { useAppDispatch, useAppSelector } from "./shared/hooks";
-import { logout } from "./modules/authentication/repository";
 import profileStore from "./modules/authentication/profileStore";
-import { publicToast } from "./shared/components/Toast";
+import { onAuthStateChanged } from "firebase/auth";
 
-function App() {
-  const token = localStorage.getItem("auth-token");
-  const dispatch = useAppDispatch();
-  console.log(auth.currentUser, ["auth"]);
-
-  if (token && auth?.currentUser && auth?.currentUser?.refreshToken !== token) {
-    logout()
-      .then(() => {
-        dispatch(profileStore.actions.logOut());
-        navigate("/login");
-      })
-      .catch(() => {
-        publicToast({
-          type: "error",
-          description: "Có lỗi xảy ra",
-          message: "Đăng xuất thất bại",
-        });
-      });
+const getTokenFirebase = () => {
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    return currentUser?.getIdToken();
   }
-
+  if (!localStorage.getItem("auth-token")) {
+    return null;
+  }
+  return new Promise((resole, reject) => {
+    const waitTimer = setTimeout(() => {
+      reject(null);
+      console.log("Reject timeout");
+    }, 10000);
+    const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        resole(user.getIdToken());
+      } else {
+        reject(null);
+      }
+      unregisterAuthObserver();
+      clearTimeout(waitTimer);
+    });
+  });
+};
+function App() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  let token = getTokenFirebase();
+  if (!token) {
+    dispatch(profileStore.actions.logOut());
+    localStorage.removeItem("auth-token");
+    navigate("/login");
+  }
   const listPermissionCode =
     useAppSelector((state) => state.profile.listPermissionCode) || [];
-  // useEffect(() => {
-  //   const unsubscibed = auth.onAuthStateChanged((userCurrent) => {
-  //     if (userCurrent) {
-  //       setUser(userCurrent);
-  //       return;
-  //     } else {
-  //     }
-  //     setUser(undefined);
-  //   });
-  //   return () => {
-  //     unsubscibed();
-  //   };
-  // }, [history]);
-
   return (
     <div className="App">
       <Routes>

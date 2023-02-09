@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import profileStore from "../../modules/authentication/profileStore";
+import contractStore from "../../modules/contract/contractStore";
 import { deviceStore } from "../../modules/device/deviceStore";
 import { provideNumbersStore } from "../../modules/provideNumbers/provideNumbersStore";
 import { serviceStore } from "../../modules/service/serviceStore";
@@ -10,6 +11,8 @@ import { userLogStore } from "../../modules/setting/userLog/userLog.Store";
 export const store = configureStore({
   reducer: {
     profile: profileStore.reducer,
+    contract: contractStore.reducer,
+
     device: deviceStore.reducer,
     service: serviceStore.reducer,
     provideNumbers: provideNumbersStore.reducer,

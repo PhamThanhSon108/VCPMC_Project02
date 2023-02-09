@@ -1,3 +1,4 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import {
   Button,
   Col,
@@ -9,9 +10,19 @@ import {
   Row,
   Typography,
   Upload,
+  InputNumber,
 } from "antd";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+  fetchContract,
+  fetchContracts,
+} from "../../../modules/contract/contractStore";
+import { extendContract } from "../../../modules/contract/repository";
 import { propsUpload } from "../../../view/Manage/Contracts/components/CreateContract";
+import { authorisationContract } from "../../../view/Manage/Contracts/components/CreateContract/CreateAuthorisationContract";
 import IconUpload from "../../assets/images/icons/IconUpload";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { publicToast } from "../Toast";
 import "./ExtendContractModal.scss";
 
@@ -22,18 +33,91 @@ function ExtendContractModal({
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
 }) {
+  const dateFormat = "YYYY-MM-DD";
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+  const contract: authorisationContract | any = useAppSelector(
+    (state) => state.contract.contract
+  );
+  const [copyRight, setCopyRight] = useState<0 | 1 | 2>(0);
   const showModal = () => {
     if (setIsModalOpen) setIsModalOpen(true);
   };
-  const dateFormat = "YYYY-MM-DD";
-  const handleOk = () => {
-    publicToast({
-      type: "success",
-      message: "Thành công",
-      description: "Cập nhật mật khẩu thành công",
+
+  const { id } = useParams();
+  const [file, setFile] = useState<File | null | any>(null);
+  const validateCopyRight = ({
+    data,
+    currentCopyRight,
+    currentPerformersRight,
+    currentExecutiveRight,
+  }: {
+    data: any;
+    currentCopyRight: number;
+    currentPerformersRight: number;
+    currentExecutiveRight: number;
+  }) => {
+    if (copyRight === 1) {
+      if (
+        !currentCopyRight ||
+        currentCopyRight > 100 ||
+        currentCopyRight <= 0
+      ) {
+        publicToast({ type: "error", message: "Quyền tác giả không hợp lệ!1" });
+        return;
+      }
+      data["performersRight"] = 0;
+      data["executiveRight"] = 0;
+    }
+    if (copyRight === 2) {
+      if (
+        !currentPerformersRight ||
+        !currentExecutiveRight ||
+        currentPerformersRight + currentExecutiveRight > 100
+      ) {
+        console.log(
+          currentPerformersRight,
+          currentExecutiveRight,
+          currentPerformersRight + currentExecutiveRight
+        );
+
+        publicToast({ type: "error", message: "Quyền tác giả không hợp lệ!2" });
+        return;
+      }
+
+      data["copyRight"] = 0;
+    }
+  };
+
+  const handleSuccesExtendContract = async () => {
+    publicToast({ type: "success", message: "Gia hạn thành công" });
+    const contractAction = dispatch(fetchContract({ id }));
+    unwrapResult(contractAction);
+    const contractsAction = dispatch(fetchContracts());
+    await Promise.all([contractAction, contractAction]);
+  };
+  const handleOk = (data: any) => {
+    const currentCopyRight = parseInt(data?.copyRight);
+    const currentPerformersRight = parseInt(data?.performersRight);
+    const currentExecutiveRight = parseInt(data?.executiveRight);
+    validateCopyRight({
+      data,
+      currentCopyRight,
+      currentExecutiveRight,
+      currentPerformersRight,
     });
-    if (setIsModalOpen) setIsModalOpen(false);
+    if (id) {
+      extendContract({
+        id: id,
+        contract: Object.assign(data, { file: file }),
+      })
+        .then(() => {
+          handleSuccesExtendContract();
+        })
+        .catch(() => {
+          publicToast({ type: "error", message: "Có lỗi xảy ra" });
+        });
+    }
   };
 
   const handleCancel = () => {
@@ -103,10 +187,14 @@ function ExtendContractModal({
                           <span className="form-label">Từ ngày:</span>
                         </>
                       }
-                      name="userLastnameg"
-                      rules={[{ message: "Tiêu đề là bắt buộc" }]}
+                      name="timeExtendContract"
                     >
-                      <span>02/02/2022</span>
+                      <span>
+                        {new Date(
+                          contract?.expirationDate?.seconds * 1000 +
+                            24 * 60 * 60 * 1000
+                        ).toLocaleDateString()}
+                      </span>
                     </Form.Item>
                     <Form.Item
                       label={
@@ -114,8 +202,10 @@ function ExtendContractModal({
                           <span>Đến ngày:</span>
                         </>
                       }
-                      name="userLastnameg"
-                      rules={[{ message: "Tiêu đề là bắt buộc" }]}
+                      name="expirationDate"
+                      rules={[
+                        { required: true, message: "Trường này là bắt buộc" },
+                      ]}
                     >
                       <DatePicker />
                     </Form.Item>
@@ -128,32 +218,66 @@ function ExtendContractModal({
                     <Typography.Text className="title">
                       Mức nhuận bút
                     </Typography.Text>
-                    <div className="checkbox-option">
-                      <Checkbox />
+                    <div
+                      className={`checkbox-option ${
+                        copyRight === 2 ? "disable" : ""
+                      }`}
+                    >
+                      <Checkbox
+                        checked={copyRight === 1}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setCopyRight(1);
+                          } else {
+                            setCopyRight(0);
+                          }
+                        }}
+                      />
+
                       <Form.Item
                         label={
                           <>
                             <span>Quyền tác giả:</span>
                           </>
                         }
-                        name="contractName"
-                        rules={[
-                          {
-                            message: "Quyền tác giả là bắt buộc",
-                          },
-                        ]}
+                        name="copyRight"
+
+                        // rules={[
+                        //   {
+                        //     required: copyRight === 1,
+                        //     message: "Trường này là bắt buộc",
+                        //   },
+                        // ]}
                       >
-                        <Input maxLength={100} /> <span>%</span>
+                        <InputNumber
+                          disabled={copyRight === 2}
+                          maxLength={100}
+                        />
                       </Form.Item>
                     </div>
 
-                    <div className="checkbox-option2">
-                      <Checkbox />
-                      <span> Quyền liên quan</span>
-                      <div className="child-wrap">
+                    <div
+                      className={`checkbox-option2 ${
+                        copyRight === 1 ? "disable" : ""
+                      }`}
+                    >
+                      <Checkbox
+                        checked={copyRight === 2}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            console.log(copyRight, "copu");
+
+                            setCopyRight(2);
+                          } else {
+                            setCopyRight(0);
+                          }
+                        }}
+                      />
+                      <span>Quyền liên quan</span>
+                      <div className={`child-wrap`}>
                         <div className="child-item">
                           <div className="wrap-checkbox1">
-                            <Checkbox />
+                            <Checkbox disabled={copyRight === 1} />
                           </div>
                           <Form.Item
                             label={
@@ -161,20 +285,28 @@ function ExtendContractModal({
                                 <span>Quyền của người biểu diễn:</span>{" "}
                               </>
                             }
-                            name="contractName"
+                            name="performersRight"
                             rules={[
                               {
-                                message: "Quyền tác giả là bắt buộc",
+                                required: copyRight === 2,
+                                message: "Trường này là bắt buộc",
                               },
                             ]}
                           >
-                            <Input maxLength={100} /> <span>%</span>
+                            <InputNumber
+                              checked={copyRight === 2}
+                              disabled={copyRight === 1}
+                              maxLength={100}
+                            />
                           </Form.Item>
                         </div>
 
                         <div className="child-item">
                           <div className="wrap-checkbox">
-                            <Checkbox />
+                            <Checkbox
+                              checked={copyRight === 2}
+                              disabled={copyRight === 1}
+                            />
                           </div>
                           <Form.Item
                             label={
@@ -184,14 +316,18 @@ function ExtendContractModal({
                                 </span>
                               </>
                             }
-                            name="contractName"
+                            name="executiveRight"
                             rules={[
                               {
-                                message: "Quyền tác giả là bắt buộc",
+                                required: copyRight === 2,
+                                message: "Trường này là bắt buộc",
                               },
                             ]}
                           >
-                            <Input maxLength={20} /> <span>%</span>
+                            <InputNumber
+                              disabled={copyRight === 1}
+                              maxLength={20}
+                            />
                           </Form.Item>
                         </div>
                       </div>

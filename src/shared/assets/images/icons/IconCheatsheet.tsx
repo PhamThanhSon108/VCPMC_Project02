@@ -12,44 +12,44 @@ export default React.memo(function IconCheatsheet() {
       <path
         d="M10.6667 24H28"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M4 24H4.01333"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M10.6667 16H28"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M4 16H4.01333"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M10.6667 8H28"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M4 8H4.01333"
         stroke="currentcolor"
-        stroke-width="2.75"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

@@ -25,13 +25,7 @@ export default function AuthorizedWork() {
       </Row>
       <Row className="page__body">
         <Col span={24} className="page__body-table">
-          {
-            <TableAuthorisations
-              statusActive={"all"}
-              statusConect={"all"}
-              keyWord={""}
-            />
-          }
+          {<TableAuthorisations />}
         </Col>
       </Row>
     </>

@@ -1,22 +1,23 @@
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import { InputNumber, Table } from "antd";
+import { Badge, InputNumber, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../../../shared/hooks";
+import { authorisationContract } from "../CreateContract/CreateAuthorisationContract";
+import ReasonCancelContractModal from "./ReasonCancelContractModal";
 
-export interface DataType {
-  id: string;
-  orderNumber: number;
-  idContract: string;
-  contractName: string;
-  authorizer: string;
-  proprietaryRight: string;
-  contractualEffect: string;
-  creationDate: string;
-}
-
-const columns: ColumnsType<DataType> = [
+// export interface DataType {
+//   id: string;
+//   orderNumber: number;
+//   idContract: string;
+//   contractName: string;
+//   authorizer: string;
+//   proprietaryRight: string;
+//   contractualEffect: string;
+//   creationDate: string;
+// }
+let columns: ColumnsType<authorisationContract> = [
   {
     title: "STT",
     dataIndex: "orderNumber",
@@ -24,8 +25,8 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: "Số hợp đồng",
-    dataIndex: "idContract",
-    key: "idContract",
+    dataIndex: "contractNumber",
+    key: "contractNumber",
   },
   {
     title: "Tên hợp đồng",
@@ -34,28 +35,68 @@ const columns: ColumnsType<DataType> = [
   },
   {
     title: "Người ủy quyền",
-    dataIndex: "authorizer",
-    key: "authorizer",
+    dataIndex: "name",
+    key: "name",
+    render: (_, record) => {
+      return record.authorisedPerson.name;
+    },
   },
   {
     title: "Quyền sở hữu",
-    dataIndex: "proprietaryRight",
-    key: "proprietaryRight",
+
+    key: "ownership",
+    render: (_, record: any) => {
+      if (record?.ownership?.copyRight > 0) {
+        return "Quyền tác giả";
+      }
+      return "Quyền của người biểu diễn, quyền của nhà sản xuất";
+    },
   },
   {
     title: "Hiệu lực hợp đồng",
-    dataIndex: "contractualEffect",
     key: "contractualEffect",
+    render: (_, record: any) => {
+      const today = new Date();
+      const expirationDate = new Date(record?.expirationDate?.seconds * 1000);
+      if (record?.reasonCancelContract) {
+        return (
+          <Badge
+            text="Bị hủy"
+            status="warning"
+            style={{ color: "white" }}
+          ></Badge>
+        );
+      }
+      if (today <= expirationDate) {
+        return (
+          <Badge
+            text="Còn thời hạn"
+            status="processing"
+            style={{ color: "white" }}
+          ></Badge>
+        );
+      } else
+        return (
+          <Badge
+            text="Hết thời hạn"
+            status="error"
+            style={{ color: "white" }}
+          ></Badge>
+        );
+    },
   },
   {
     title: "Ngày tạo",
-    dataIndex: "creationDate",
-    key: "creationDate",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render: (_, record: any) => {
+      return new Date(record?.createdAt?.seconds * 1000).toLocaleDateString();
+    },
   },
   {
     render: (_, { id }) => (
       <Link
-        to={"/contract/detail/123"}
+        to={`/contract/detail/${id}`}
         style={{
           textAlign: "center",
           color: " #FF7506",
@@ -67,7 +108,6 @@ const columns: ColumnsType<DataType> = [
     ),
   },
 ];
-
 const itemRender = (_: any, type: string, originalElement: ReactNode) => {
   if (type === "prev") {
     return (
@@ -81,66 +121,72 @@ const itemRender = (_: any, type: string, originalElement: ReactNode) => {
   }
   return originalElement;
 };
-export default React.memo(function TableAuthorisations({
-  statusActive,
-  statusConect,
-  keyWord,
-}: {
-  statusActive: "active" | "inactive" | "all";
-  statusConect: "conected" | "fail" | "all";
-  keyWord: string | undefined;
-}) {
-  const devices = useAppSelector((state) => state.device);
-  let data: DataType[] | any = devices.devices;
+export default React.memo(function TableAuthorisations() {
+  const { contracts, loadingFetchContracts } = useAppSelector(
+    (state) => state.contract
+  );
+  let data: authorisationContract | any = contracts;
+  const [isOpenModalReasonCancelContract, setIsOpenModalReasonCancelContract] =
+    useState<boolean>(false);
+  const [reasonCancelContract, setReasonCancelContract] = useState<{
+    message: string;
+    title: string;
+  }>({ message: "", title: "" });
   const [numbRowInPage, setNumbRowInPage] = useState<number>(13);
+  const handleOpenModalReasonCancelContract = (reason: {
+    message: string;
+    title: string;
+  }) => {
+    console.log(reason);
+
+    setReasonCancelContract(reason);
+    setIsOpenModalReasonCancelContract(true);
+  };
+  useEffect(() => {
+    if (columns?.length === 8) {
+      columns[8] = {
+        render: (_, record: any) => {
+          console.log("nono");
+          if (record?.reasonCancelContract) {
+            return (
+              <div
+                onClick={() => {
+                  handleOpenModalReasonCancelContract({
+                    message: record?.reasonCancelContract,
+                    title: record?.contractName,
+                  });
+                }}
+                style={{
+                  textAlign: "center",
+                  color: " #FF7506",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                Lý do hủy
+              </div>
+            );
+          }
+        },
+      };
+    }
+  }, [reasonCancelContract.title]);
+  console.log(reasonCancelContract, "reason");
+
   return (
     <>
+      {
+        <ReasonCancelContractModal
+          reason={reasonCancelContract}
+          isModalOpen={isOpenModalReasonCancelContract}
+          setIsModalOpen={setIsOpenModalReasonCancelContract}
+        />
+      }
       <Table
-        loading={devices.loading}
+        loading={loadingFetchContracts}
         className="table-custom"
         columns={columns}
-        dataSource={[
-          {
-            id: "HD123",
-            orderNumber: 1,
-            idContract: "HD123",
-            contractName: "Hợp đồng uỷ quyền bài hát",
-            authorizer: "Vương Anh Tú",
-            proprietaryRight: "Người biểu diễn",
-            contractualEffect: "Còn thời hạn",
-            creationDate: "01/04/2021 15:53:13",
-          },
-          {
-            id: "HD123",
-            orderNumber: 1,
-            idContract: "HD123",
-            contractName: "Hợp đồng uỷ quyền bài hát",
-            authorizer: "Vương Anh Tú",
-            proprietaryRight: "Người biểu diễn",
-            contractualEffect: "Còn thời hạn",
-            creationDate: "01/04/2021 15:53:13",
-          },
-          {
-            id: "HD123",
-            orderNumber: 1,
-            idContract: "HD123",
-            contractName: "Hợp đồng uỷ quyền bài hát",
-            authorizer: "Vương Anh Tú",
-            proprietaryRight: "Người biểu diễn",
-            contractualEffect: "Còn thời hạn",
-            creationDate: "01/04/2021 15:53:13",
-          },
-          {
-            id: "HD123",
-            orderNumber: 1,
-            idContract: "HD123",
-            contractName: "Hợp đồng uỷ quyền bài hát",
-            authorizer: "Vương Anh Tú",
-            proprietaryRight: "Người biểu diễn",
-            contractualEffect: "Còn thời hạn",
-            creationDate: "01/04/2021 15:53:13",
-          },
-        ]}
+        dataSource={contracts}
         size={"middle"}
         pagination={{
           pageSize: numbRowInPage,
@@ -157,8 +203,6 @@ export default React.memo(function TableAuthorisations({
           onChange={(value) => {
             if (value && value > 0) {
               setTimeout(() => {
-                console.log("loop");
-
                 setNumbRowInPage(value);
               }, 3000);
             }

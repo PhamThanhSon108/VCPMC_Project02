@@ -1,53 +1,39 @@
-import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Col, Form, Modal, Row } from "antd";
 import TextArea from "antd/lib/input/TextArea";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  fetchContract,
-  fetchContracts,
-} from "../../../modules/contract/contractStore";
-import { cancelContractAsync } from "../../../modules/contract/repository";
-import { useAppDispatch } from "../../hooks";
-import { publicToast } from "../Toast";
 
-import "./PlayVideoModal.scss";
-export default function CancelContractModal({
+export default function ReasonCancelContractModal({
+  reason,
   isModalOpen,
   setIsModalOpen,
 }: {
+  reason: { message: string; title: string };
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
 }) {
   const [form] = Form.useForm();
-  const { id } = useParams();
-  const dispatch = useAppDispatch();
-  const handleOk = (data: any) => {
-    if (id && data?.reasonCancelContract) {
-      cancelContractAsync({ id: id, reason: data?.reasonCancelContract }).then(
-        () => {
-          setIsModalOpen(false);
-          publicToast({
-            type: "success",
-            message: "Thành công",
-            description: "Cập nhật thành công",
-          });
-          const contractAction = dispatch(fetchContract({ id }));
-          dispatch(fetchContracts());
-          unwrapResult(contractAction);
-        }
-      );
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (reason) {
+      form.setFieldValue("reasonCancelContract", reason?.message);
     }
+  }, [reason]);
+  const handleOk = (data: any) => {
+    setIsModalOpen(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   return (
     <>
       {isModalOpen ? (
         <Modal
           className="modal-container"
-          title="Hủy hợp đồng ủy quyền"
+          title={reason?.title}
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -63,15 +49,12 @@ export default function CancelContractModal({
                   marginTop: "20px",
                 }}
               >
-                <Button className="cancel" onClick={handleCancel}>
-                  Quay lại
-                </Button>
                 <Button
                   className="confirm"
                   htmlType="submit"
                   form="cancelContract"
                 >
-                  Hủy hơp đồng
+                  Đóng
                 </Button>
               </div>
             </Row>
@@ -97,12 +80,11 @@ export default function CancelContractModal({
                   <Col span={24}>
                     <Form.Item name={"reasonCancelContract"}>
                       <TextArea
-                        placeholder={
-                          "Cho chúng tôi biết lý do bạn muốn huỷ hợp đồng uỷ quyền này..."
-                        }
+                        placeholder={reason?.message}
                         maxLength={100}
                         rows={8}
                         style={{ resize: "none" }}
+                        value={reason?.message}
                       ></TextArea>
                     </Form.Item>
                   </Col>

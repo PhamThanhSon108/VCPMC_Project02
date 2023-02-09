@@ -14,22 +14,26 @@ import {
   Radio,
   Row,
   Select,
-  Switch,
   Typography,
   Upload,
+  UploadFile,
   UploadProps,
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import TextArea from "antd/lib/input/TextArea";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createContract } from "../../../../../modules/contract/repository";
+import { images } from "../../../../../shared/assets/images";
 import IconUpload from "../../../../../shared/assets/images/icons/IconUpload";
+import { publicToast } from "../../../../../shared/components/Toast";
 import "./styles.scss";
 export const propsUpload: UploadProps = {
   name: "file",
   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  headers: {
-    authorization: "authorization-text",
-  },
+  // headers: {
+  //   authorization: "authorization-text",
+  // },
   onChange(info) {
     if (info.file.status !== "uploading") {
     }
@@ -40,12 +44,54 @@ export const propsUpload: UploadProps = {
     }
   },
 };
+
+export interface authorisationContract {
+  id: string;
+  contractNumber: string;
+  contractName: string;
+  effectiveDate: string;
+  expirationDate: string;
+  file: File;
+  proprietaryRight: string[];
+  authorisedPerson: {
+    name: string;
+    gender: string;
+    unit: "personnal" | "organization";
+    birthday: string;
+    phone: string;
+    citizenship: string;
+    identificationNumber: string;
+    issueDate: string;
+    placeOfIssue: string;
+    taxCode: string;
+    residence: string;
+    email: string;
+    numberedAccount: string;
+    password: string;
+  };
+}
+
 export default function CreateAuthorisationContract() {
   const [form] = useForm();
   const navigate = useNavigate();
-  const handleSubmitForm = () => {
-    navigate("/contract/add-record/id");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
+  const handleSubmitForm = (data: any) => {
+    setLoading(true);
+    createContract({
+      contract: Object.assign(data, { file: file }),
+      type: "authorisation",
+    })
+      .then(() => {
+        publicToast({ type: "success", message: "Thêm hợp đồng thành công" });
+      })
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
+    // navigate("/contract/add-record/id");
   };
+
   return (
     <div
       className="page create-contract"
@@ -72,7 +118,12 @@ export default function CreateAuthorisationContract() {
                 </>
               }
               name="contractNumber"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này bao gồm thông tin bắt buộc",
+                },
+              ]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -84,7 +135,9 @@ export default function CreateAuthorisationContract() {
                 </>
               }
               name="contractName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              rules={[
+                { required: true, message: "Thông tin trường này là bắt buộc" },
+              ]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -95,19 +148,29 @@ export default function CreateAuthorisationContract() {
                   <span>Ngày hiệu lực:</span> <span className="red">*</span>
                 </>
               }
-              name="userLastnamef"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              name="effectiveDate"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này bao gồm thông tin bắt buộc",
+                },
+              ]}
             >
               <DatePicker />
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Ngày hết hạn:</span> <span className="red">*</span>
+                  <span>Ngày hết hạn</span> <span className="red">*</span>
                 </>
               }
-              name="userLastnameg"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              name="expirationDate"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này bao gồm thông tin bắt buộc",
+                },
+              ]}
             >
               <DatePicker />
             </Form.Item>
@@ -117,25 +180,31 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Đính kèm tệp:</span> <span className="red">*</span>
+                  <span>Đính kèm tệp</span>
                 </>
               }
-              name="file"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              rules={[]}
             >
-              <Upload {...propsUpload}>
-                <Button icon={<IconUpload />} className="btn-upload">
-                  Tải lên
-                </Button>
-              </Upload>
+              <label className="upload" htmlFor="upload-doc">
+                <span>{images.icon.upload}</span>
+                <span>Tải tệp</span>
+              </label>
+              <input
+                id="upload-doc"
+                className=""
+                type={"file"}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  if (e.target.files) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
+                style={{ backgroundColor: "transparent", color: "white" }}
+              />
             </Form.Item>
           </Col>
 
           <Col span={8} style={{ paddingRight: "25px" }}>
-            <Form.Item
-              name="contractNumber"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
-            >
+            <Form.Item name="" rules={[]}>
               <div className="infor-contract-authorisation">
                 <div className="orange bold">
                   <span>Mức nhuận bút</span>
@@ -164,6 +233,7 @@ export default function CreateAuthorisationContract() {
 
           <Divider />
         </Row>
+
         <Row className="page__title">
           <Typography.Title>Thông tin pháp nhân ủy quyền</Typography.Title>
         </Row>
@@ -172,14 +242,13 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Pháp nhân ủy quyền:</span>{" "}
-                  <span className="red">*</span>
+                  <span>Pháp nhân ủy quyền</span>
                 </>
               }
-              name="contractNumber"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              name="unit"
+              rules={[]}
             >
-              <Radio.Group>
+              <Radio.Group defaultValue={1}>
                 <Radio value={1} className="white-font-color">
                   Cá nhân
                 </Radio>
@@ -192,12 +261,16 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Tên người ủy quyền:</span>{" "}
-                  <span className="red">*</span>
+                  <span>Tên người ủy quyền</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông tin trường này là bắt buộc",
+                },
+              ]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -205,28 +278,38 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Ngày sinh:</span> <span className="red">*</span>
+                  <span>Ngày sinh</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerBirthDay"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              name="birthday"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này bao gồm thông tin bắt buộc",
+                },
+              ]}
             >
               <DatePicker className="sort" />
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Giới tính:</span> <span className="red">*</span>
+                  <span>Giới tính</span> <span className="red">*</span>
                 </>
               }
-              name=""
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              name="gender"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này bao gồm thông tin bắt buộc",
+                },
+              ]}
             >
-              <Radio.Group>
-                <Radio className="white-font-color" value={1}>
+              <Radio.Group defaultValue={"male"}>
+                <Radio className="white-font-color" value={"male"}>
                   Nam
                 </Radio>
-                <Radio className="white-font-color" value={2}>
+                <Radio className="white-font-color" value={"female"}>
                   Nữ
                 </Radio>
               </Radio.Group>
@@ -237,7 +320,7 @@ export default function CreateAuthorisationContract() {
                   <span>Quốc tịch:</span> <span className="red">*</span>
                 </>
               }
-              name="userLastname"
+              name="citizenship"
               rules={[{ required: true, message: "Tình trạng là bắt buộc" }]}
             >
               <Select
@@ -254,11 +337,16 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Số điện thoại:</span> <span className="red">*</span>
+                  <span>Số điện thoại</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông tin trường này là bắt buộc",
+                },
+              ]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -268,33 +356,48 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>CMND/CCCD:</span> <span className="red">*</span>
+                  <span>CMND/CCCD</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="identificationNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông tin trường này là bắt buộc",
+                },
+              ]}
             >
               <Input maxLength={100} className="sort" />
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Ngày cấp:</span> <span className="red">*</span>
+                  <span>Ngày cấp</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerBirthDay"
-              rules={[{ required: true, message: "Tiêu đề là bắt buộc" }]}
+              name="issueDate"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này bao gồm thông tin bắt buộc",
+                },
+              ]}
             >
               <DatePicker className="sort" />
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Nơi cấp:</span> <span className="red">*</span>
+                  <span>Nơi cấp</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="placeOfIssue"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông tin trường này là bắt buộc",
+                },
+              ]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -302,11 +405,11 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Mã số thuế:</span> <span className="red">*</span>
+                  <span>Mã số thuế</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="taxCode"
+              rules={[]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -314,11 +417,11 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Nơi cứ trú:</span> <span className="red">*</span>
+                  <span>Nơi cứ trú</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="residence"
+              rules={[]}
             >
               <TextArea autoSize={{ minRows: 4, maxRows: 8 }} />
             </Form.Item>
@@ -328,11 +431,16 @@ export default function CreateAuthorisationContract() {
             <Form.Item
               label={
                 <>
-                  <span>Email:</span> <span className="red">*</span>
+                  <span>Email</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông tin trường này là bắt buộc",
+                },
+              ]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -340,13 +448,16 @@ export default function CreateAuthorisationContract() {
               validateTrigger={["onSubmit", "onBlur"]}
               label={
                 <>
-                  <span>Mật khẩu:</span> <span className="red">*</span>
+                  <span>Mật khẩu</span> <span className="red">*</span>
                 </>
               }
               name="password"
               rules={[
                 { required: true, message: "Bạn chưa nhập mật khẩu" },
-                { min: 6, message: "Mật khẩu có độ dài tối thiểu là 6 ký tự" },
+                {
+                  min: 6,
+                  message: "Mật khẩu có độ dài tối thiểu là 6 ký tự",
+                },
               ]}
             >
               <Input.Password
@@ -362,30 +473,35 @@ export default function CreateAuthorisationContract() {
                   <span>Tên đăng nhập:</span> <span className="red">*</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông tin trường này là bắt buộc",
+                },
+              ]}
+            >
+              <Input maxLength={100} disabled />
+            </Form.Item>
+            <Form.Item
+              label={
+                <>
+                  <span>Số tài khoản</span>
+                </>
+              }
+              name="numberedAccount"
+              rules={[]}
             >
               <Input maxLength={100} />
             </Form.Item>
             <Form.Item
               label={
                 <>
-                  <span>Số tài khoản:</span> <span className="red">*</span>
+                  <span>Ngân hàng</span>
                 </>
               }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
-            >
-              <Input maxLength={100} />
-            </Form.Item>
-            <Form.Item
-              label={
-                <>
-                  <span>Ngân hàng:</span> <span className="red">*</span>
-                </>
-              }
-              name="authorizerName"
-              rules={[{ required: true, message: "Tên hợp đồng là bắt buộc" }]}
+              name="bank"
+              rules={[]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -407,6 +523,7 @@ export default function CreateAuthorisationContract() {
             >
               <Button className="cancel">Hủy bỏ</Button>
               <Button
+                loading={loading}
                 className="confirm"
                 htmlType="submit"
                 form="createAuthorisationContract"

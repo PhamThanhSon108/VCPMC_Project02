@@ -19,6 +19,7 @@ import CreateAuthorisationContract from "../view/Manage/Contracts/components/Cre
 import CreateMiningContract from "../view/Manage/Contracts/components/CreateContract/CreateMiningContract";
 import DefaultContracts from "../view/Manage/Contracts/components/DefaultContracts";
 import DetailContract from "../view/Manage/Contracts/components/DetailContract";
+import UpdateAuthorisationContract from "../view/Manage/Contracts/components/UpdateContract/UpdateAuthorisationContract";
 import Playlist from "../view/Playlist";
 import AddPlaylist from "../view/Playlist/component/AddPlaylist";
 import DefaultPlaylist from "../view/Playlist/component/DefaultPlaylist";
@@ -148,6 +149,10 @@ export const privateRoutes: routeType[] = [
       {
         path: "add-authorisation/:id",
         component: <CreateAuthorisationContract />,
+      },
+      {
+        path: "update-authorisation/:id",
+        component: <UpdateAuthorisationContract />,
       },
       {
         path: "add-mining/:id",

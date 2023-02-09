@@ -10,7 +10,7 @@ export const publicToast = ({
 }: {
   type: NotificationType;
   message: string;
-  description: string;
+  description?: string;
 }) => {
   notification[type]({
     message,

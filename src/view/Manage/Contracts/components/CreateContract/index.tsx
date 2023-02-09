@@ -160,7 +160,7 @@ export default function CreateContract() {
                 </div>
                 <div>
                   <span className="bold">Quyền tác giả</span>
-                  <span>50%</span>
+                  <span></span>
                 </div>
                 <div>
                   <span className="bold">Mức nhuận bút</span>

@@ -13,23 +13,23 @@ export default React.memo(function IconLogout() {
       <path
         d="M31.3333 32.6663L38 25.9997L31.3333 19.333"
         stroke="#FF7506"
-        stroke-width="2.0625"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.0625"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M38 26H22"
         stroke="#FF7506"
-        stroke-width="2.0625"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2.0625"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M22 38H16.6667C15.9594 38 15.2811 37.719 14.781 37.219C14.281 36.7189 14 36.0406 14 35.3333V16.6667C14 15.9594 14.281 15.2811 14.781 14.781C15.2811 14.281 15.9594 14 16.6667 14H22"
         stroke="#FF7506"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

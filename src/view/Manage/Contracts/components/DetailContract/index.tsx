@@ -1,38 +1,59 @@
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import {
-  Button,
-  Col,
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  message,
-  Radio,
-  Row,
-  Select,
-  Typography,
-  Upload,
-  UploadProps,
-} from "antd";
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Col, Row, Spin, Typography } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import TextArea from "antd/lib/input/TextArea";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { fetchContract } from "../../../../../modules/contract/contractStore";
+
 import { images } from "../../../../../shared/assets/images";
 import CancelContractModal from "../../../../../shared/components/Modal/CancelContractModal";
 import ExtendContractModal from "../../../../../shared/components/Modal/ExtendContractModal";
-import ExtendContract from "../../../../../shared/components/Modal/ExtendContractModal";
+
 import SwitchTab from "../../../../../shared/components/Tab/SwitchTab";
+import { publicToast } from "../../../../../shared/components/Toast";
+import { useAppDispatch, useAppSelector } from "../../../../../shared/hooks";
+import { authorisationContract } from "../CreateContract/CreateAuthorisationContract";
 import AuthorizedWork from "./AuthorizedWork";
 import ContractInformation from "./ContractInformation";
 
 export default function DetailContract() {
+  const dispatch = useAppDispatch();
+  const { id } = useParams();
+
+  const contract: authorisationContract | any = useAppSelector(
+    (state) => state.contract.contract
+  );
+  const loadingFetchContract: authorisationContract | any = useAppSelector(
+    (state) => state.contract.loadingFetchContract
+  );
+  const [extendContract, setExtendContract] = useState<boolean>(false);
+  const [cancelContract, setCancelContract] = useState<boolean>(false);
   const [switchTab, setSwitchTab] = useState<
     "detailContract" | "authorizedWork"
   >("detailContract");
-  const [form] = useForm();
-  const [extendContract, setExtendContract] = useState<boolean>(false);
-  const [cancelContract, setCancelContract] = useState<boolean>(true);
+  const fetchDetailContract = async (id: string) => {
+    try {
+      const contractAction = dispatch(fetchContract({ id }));
+      unwrapResult(contractAction);
+      //  form.setFieldsValue(contract);
+    } catch (error) {
+      if (typeof error === "string") {
+        publicToast({ type: "error", message: error });
+      }
+    }
+  };
+  useEffect(() => {
+    console.log(contract, "loading");
+    if (id && contract?.id !== id) {
+      fetchDetailContract(id);
+    }
+  }, [id]);
+
   return (
     <>
       <ExtendContractModal
@@ -45,9 +66,7 @@ export default function DetailContract() {
       />
       <div className="page create-contract" style={{}}>
         <Row className="page__title">
-          <Typography.Title>
-            Chi tiết hợp đồng uỷ quyền bài hát - BH123333
-          </Typography.Title>
+          <Typography.Title>{`Chi tiết hợp đồng ${contract?.contractName} - ${contract?.contractNumber}`}</Typography.Title>
         </Row>
         <Row>
           <Col span={22}>
@@ -87,10 +106,10 @@ export default function DetailContract() {
                     {images.icon.addDevice}
                   </div>
                   <Link
-                    to={"add"}
+                    to={id ? `/contract/update-authorisation/${id}` : ""}
                     className="page__body-modify-container-label"
                   >
-                    Chỉnh sử hợp đồng
+                    Chỉnh sửa hợp đồng
                   </Link>
                 </div>
                 <div className="page__body-modify-container">
@@ -190,6 +209,16 @@ export default function DetailContract() {
           </Col>
         </Row>
       </div>
+      {loadingFetchContract ? (
+        <Spin
+          indicator={
+            <LoadingOutlined
+              style={{ fontSize: 35, position: "absolute", top: "50%" }}
+              spin
+            />
+          }
+        />
+      ) : null}
     </>
   );
 }

@@ -78,7 +78,9 @@ export const login = async ({
   }
   await signInWithEmailAndPassword(auth, email, password)
     .then((user: any) => {
-      localStorage.setItem("auth-token", user?._tokenResponse.refreshToken);
+      console.log(user, user?.user.accessToken, "user");
+
+      localStorage.setItem("auth-token", user?.user.accessToken);
       return Promise.resolve(user);
     })
     .catch((err) => {
